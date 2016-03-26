@@ -1087,6 +1087,28 @@ static bool ParseIRGenArgs(IRGenOptions &Opts, ArgList &Args,
     Opts.DisableAutolinkFrameworks.push_back(A->getValue());
   }
 
+  Opts.NoRedZone |= Args.hasArg(OPT_disable_red_zone);
+
+  if (const Arg *A = Args.getLastArg(options::OPT_mcmodel_EQ)) {
+      StringRef ref = A->getValue();
+      std::string value = ref.str();
+
+      if (value == "default") {
+          Opts.CModel = None;
+      } else if (value == "small") {
+          Opts.CModel = llvm::CodeModel::Small;
+      } else if (value == "medium") {
+          Opts.CModel = llvm::CodeModel::Medium;
+      } else if (value == "large") {
+          Opts.CModel = llvm::CodeModel::Large;
+      } else if (value == "kernel") {
+          Opts.CModel = llvm::CodeModel::Kernel;
+      } else {
+          Diags.diagnose({}, diag::error_invalid_arg_value,
+                         A->getOption().getPrefixedName(), value);
+      }
+  }
+
   Opts.GenerateProfile |= Args.hasArg(OPT_profile_generate);
   const Arg *ProfileUse = Args.getLastArg(OPT_profile_use);
   Opts.UseProfile = ProfileUse ? ProfileUse->getValue() : "";

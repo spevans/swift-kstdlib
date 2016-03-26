@@ -838,6 +838,14 @@ def target_legacy_spelling : Joined<["--"], "target=">,
 def target_cpu : Separate<["-"], "target-cpu">, Flags<[FrontendOption, ModuleInterfaceOption]>,
   HelpText<"Generate code for a particular CPU variant">;
 
+def mcmodel_EQ : Joined<["-"], "mcode-model=">,
+  Flags<[FrontendOption]>,
+  HelpText<"The code model to use (small, medium, large, kernel, default)">;
+
+def disable_red_zone : Flag<["-"], "disable-red-zone">,
+  Flags<[FrontendOption]>,
+  HelpText<"Do not emit code that uses the red zone">;
+
 def profile_generate : Flag<["-"], "profile-generate">,
   Flags<[FrontendOption, NoInteractiveOption]>,
   HelpText<"Generate instrumented code to collect execution counts">;

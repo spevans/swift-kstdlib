@@ -28,6 +28,7 @@
 #include "llvm/Transforms/Instrumentation.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/VersionTuple.h"
+#include "llvm/Support/CodeGen.h"
 #include <string>
 #include <vector>
 
@@ -214,6 +215,11 @@ public:
 
   /// List of backend command-line options for -embed-bitcode.
   std::vector<uint8_t> CmdArgs;
+  // Should red zone be disabled
+  unsigned NoRedZone : 1;
+
+  // Memory code model to use
+  Optional<llvm::CodeModel::Model> CModel;
 
   /// Which sanitizer coverage is turned on.
   llvm::SanitizerCoverageOptions SanitizeCoverage;
@@ -251,6 +257,7 @@ public:
         UseIncrementalLLVMCodeGen(true), UseSwiftCall(false),
         GenerateProfile(false), EnableDynamicReplacementChaining(false),
         DisableRoundTripDebugTypes(false), CmdArgs(),
+        NoRedZone(false), CModel(None),
         SanitizeCoverage(llvm::SanitizerCoverageOptions()),
         TypeInfoFilter(TypeInfoDumpFilter::All) {}
 

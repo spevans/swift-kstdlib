@@ -66,8 +66,13 @@ static inline bool isValidPointerForNativeRetain(const void *p) {
   // kernel, so we can assume that pointer values in this range are invalid.
   // On s390x it is theoretically possible to have high bit set but in practice
   // it is unlikely.
+#if !KERNELLIB
   return (intptr_t)p > 0;
 #else
+  return (intptr_t)p < 0;
+#endif
+
+#else // not x86_64 or arm64
   return p != nullptr;
 #endif
 }
