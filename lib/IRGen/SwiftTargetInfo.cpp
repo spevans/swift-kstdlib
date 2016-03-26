@@ -91,7 +91,7 @@ static void configureX86_64(IRGenModule &IGM, const llvm::Triple &triple,
   
   // x86-64 only has 48 effective bits of address space and reserves the high
   // half for the kernel.
-  target.SwiftRetainIgnoresNegativeValues = true;
+  target.SwiftRetainIgnoresNegativeValues = false;
 }
 
 /// Configures target-specific information for 32-bit x86 platforms.

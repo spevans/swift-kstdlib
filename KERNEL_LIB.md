@@ -2,12 +2,16 @@ Swift and stdlib suitable for firmware / bare metal coding
 
 
 This repo is a fork of the apple/swift used for building [swift-project1]
-(https://github.com/spevans/swift-project1) and contains two main changes:
+(https://github.com/spevans/swift-project1) and contains three main changes:
 
-1. a `-disable-red-zone` compiler option to `swiftc` to compile code without
-using the red zone
+1. A `-disable-red-zone` compiler option to `swiftc` to compile code without
+   using the red zone
 
-2. Stdlib has been modified to remove:
+
+2. A `-mcode-model` compiler option so that the `kernel` code model can be
+   used.
+
+3. Stdlib has been modified to remove:
 
 - All floating point types `(Float32/Float64)` and code
 
