@@ -47,6 +47,9 @@ IRGenFunction::IRGenFunction(IRGenModule &IGM, llvm::Function *Fn,
     IGM.DebugInfo->pushLoc();
   }
 
+  if (IGM.IRGen.Opts.NoRedZone)
+    Fn->addFnAttr(llvm::Attribute::NoRedZone);
+
   emitPrologue();
 }
 
