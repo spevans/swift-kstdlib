@@ -21,6 +21,7 @@
 #include "swift/Basic/Platform.h"
 #include "swift/Option/Options.h"
 #include "swift/Option/SanitizerOptions.h"
+#include "llvm/ADT/StringSwitch.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/Triple.h"
 #include "llvm/Option/Arg.h"
@@ -1650,6 +1651,28 @@ static bool ParseIRGenArgs(IRGenOptions &Opts, ArgList &Args,
                                    OPT_disable_autolink_framework),
                                  Args.filtered_end())) {
     Opts.DisableAutolinkFrameworks.push_back(A->getValue());
+  }
+
+  Opts.NoRedZone |= Args.hasArg(OPT_disable_red_zone);
+
+  if (const Arg *A = Args.getLastArg(options::OPT_mcmodel_EQ)) {
+      StringRef ref = A->getValue();
+      std::string value = ref.str();
+
+      if (value == "default") {
+          Opts.CModel = llvm::CodeModel::Default;
+      } else if (value == "small") {
+          Opts.CModel = llvm::CodeModel::Small;
+      } else if (value == "medium") {
+          Opts.CModel = llvm::CodeModel::Medium;
+      } else if (value == "large") {
+          Opts.CModel = llvm::CodeModel::Large;
+      } else if (value == "kernel") {
+          Opts.CModel = llvm::CodeModel::Kernel;
+      } else {
+          Diags.diagnose({}, diag::error_invalid_arg_value,
+                         A->getOption().getPrefixedName(), value);
+      }
   }
 
   Opts.GenerateProfile |= Args.hasArg(OPT_profile_generate);
