@@ -25,6 +25,7 @@
 // FIXME: This include is just for llvm::SanitizerCoverageOptions. We should
 // split the header upstream so we don't include so much.
 #include "llvm/Transforms/Instrumentation.h"
+#include "llvm/Support/CodeGen.h"
 #include <string>
 #include <vector>
 
@@ -170,6 +171,11 @@ public:
 
   /// List of backend command-line options for -embed-bitcode.
   std::vector<uint8_t> CmdArgs;
+  // Should red zone be disabled
+  unsigned NoRedZone : 1;
+
+  // Memory code model to use
+  llvm::CodeModel::Model CModel;
 
   /// Which sanitizer coverage is turned on.
   llvm::SanitizerCoverageOptions SanitizeCoverage;
@@ -186,6 +192,7 @@ public:
         ValueNames(false), EnableReflectionMetadata(true),
         EnableReflectionNames(true), UseIncrementalLLVMCodeGen(true),
         UseSwiftCall(false), GenerateProfile(false), CmdArgs(),
+        NoRedZone(false), CModel(llvm::CodeModel::Default),
         SanitizeCoverage(llvm::SanitizerCoverageOptions()) {}
 
   /// Gets the name of the specified output filename.
