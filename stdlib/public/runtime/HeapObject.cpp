@@ -64,8 +64,13 @@ static inline bool isValidPointerForNativeRetain(const void *p) {
 #if defined(__x86_64__) || defined(__arm64__)
   // On these platforms, the upper half of address space is reserved for the
   // kernel, so we can assume that pointer values in this range are invalid.
+#if !KERNELLIB
   return (intptr_t)p > 0;
 #else
+  return (intptr_t)p < 0;
+#endif
+
+#else // not x86_64 or arm64
   return p != nullptr;
 #endif
 }
