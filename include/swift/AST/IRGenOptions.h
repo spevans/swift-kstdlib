@@ -166,6 +166,8 @@ public:
 
   /// List of backend command-line options for -embed-bitcode.
   std::vector<uint8_t> CmdArgs;
+  // Should red zone be disabled
+  unsigned NoRedZone : 1;
 
   /// Which sanitizer coverage is turned on.
   llvm::SanitizerCoverageOptions SanitizeCoverage;
@@ -181,6 +183,7 @@ public:
         HasValueNamesSetting(false), ValueNames(false),
         EnableReflectionMetadata(true), EnableReflectionNames(true),
         UseIncrementalLLVMCodeGen(true), UseSwiftCall(false), CmdArgs(),
+        NoRedZone(false),
         SanitizeCoverage(llvm::SanitizerCoverageOptions()) {}
 
   /// Gets the name of the specified output filename.
