@@ -41,7 +41,7 @@ public func _stdlib_compareNSStringDeterministicUnicodeCollationPointer(
 #endif
 
 extension String {
-#if _runtime(_ObjC)
+#if _runtime(_ObjC) || KERNELLIB
   /// This is consistent with Foundation, but incorrect as defined by Unicode.
   /// Unicode weights some ASCII punctuation in a different order than ASCII
   /// value. Such as:
@@ -118,7 +118,7 @@ extension String {
   @_inlineable // FIXME(sil-serialize-all)
   public  // @testable
   func _compareString(_ rhs: String) -> Int {
-#if _runtime(_ObjC)
+#if _runtime(_ObjC) || KERNELLIB
     // We only want to perform this optimization on objc runtimes. Elsewhere,
     // we will make it follow the unicode collation algorithm even for ASCII.
     // This is consistent with Foundation, but incorrect as defined by Unicode.
