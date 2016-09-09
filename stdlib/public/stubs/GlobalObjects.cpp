@@ -106,16 +106,24 @@ swift::_SwiftEmptySetStorage swift::_swiftEmptySetStorage = {
   0 // int entries; (zero'd bits)
 };
 
+
+#if !KERNELLIB
 static __swift_uint64_t randomUInt64() {
   std::random_device randomDevice;
   std::mt19937_64 twisterEngine(randomDevice());
   std::uniform_int_distribution<__swift_uint64_t> distribution;
   return distribution(twisterEngine);
 }
+#endif // !KERNELLIB
 
 SWIFT_ALLOWED_RUNTIME_GLOBAL_CTOR_BEGIN
 swift::_SwiftHashingSecretKey swift::_swift_stdlib_Hashing_secretKey = {
+#if !KERNELLIB
   randomUInt64(), randomUInt64()
+#else
+  // 'Random' numbers as KERNELLIB cant generate any at startup
+  0xDEADC0DE, 0xAABBCCDDEEFF
+#endif
 };
 SWIFT_ALLOWED_RUNTIME_GLOBAL_CTOR_END
 
