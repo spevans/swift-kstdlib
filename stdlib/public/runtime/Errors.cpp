@@ -14,7 +14,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if defined(__CYGWIN__) || defined(__ANDROID__) || defined(_WIN32) || defined(__HAIKU__)
+#if defined(__CYGWIN__) || defined(__ANDROID__) || defined(_WIN32) || defined(__HAIKU__) || KERNELLIB
 #  define SWIFT_SUPPORTS_BACKTRACE_REPORTING 0
 #else
 #  define SWIFT_SUPPORTS_BACKTRACE_REPORTING 1
