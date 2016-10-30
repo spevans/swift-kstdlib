@@ -299,6 +299,15 @@ size_t swift::_stdlib_malloc_size(const void *ptr) {
 #error No malloc_size analog known for this platform/libc.
 #endif
 
+#if KERNELLIB // KERNNELIB has not support for _stdlib_random
+
+SWIFT_RUNTIME_STDLIB_INTERNAL
+void swift::_stdlib_random(void *buf, __swift_size_t nbytes) {
+        // TODO: some sort of random number thing
+}
+
+#else // !KERNELLIB
+
 static Lazy<std::mt19937> theGlobalMT19937;
 
 static std::mt19937 &getGlobalMT19937() {
@@ -391,3 +400,5 @@ void swift::_stdlib_random(void *buf, __swift_size_t nbytes) {
 }
 
 #endif
+
+#endif // !KERNELLIB

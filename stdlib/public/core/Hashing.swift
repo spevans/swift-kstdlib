@@ -63,8 +63,9 @@ internal protocol _HashBuffer {
 /// Should not be used outside `Dictionary` implementation.
 @inlinable // FIXME(sil-serialize-all)
 @_transparent
-internal var _hashContainerDefaultMaxLoadFactorInverse: Double {
-  return 1.0 / 0.75
+internal var _hashContainerDefaultMaxLoadFactorInverse: Int {
+  //return 1.0 / 0.75
+  return 2
 }
 
 #if _runtime(_ObjC)

@@ -107,10 +107,14 @@ public typealias NilLiteralConvertible = ExpressibleByNilLiteral
 public typealias _BuiltinIntegerLiteralConvertible = _ExpressibleByBuiltinIntegerLiteral
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "ExpressibleByIntegerLiteral")
 public typealias IntegerLiteralConvertible = ExpressibleByIntegerLiteral
+#if !KERNELLIB
+
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "_ExpressibleByBuiltinFloatLiteral")
 public typealias _BuiltinFloatLiteralConvertible = _ExpressibleByBuiltinFloatLiteral
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "ExpressibleByFloatLiteral")
 public typealias FloatLiteralConvertible = ExpressibleByFloatLiteral
+#endif
+
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "_ExpressibleByBuiltinBooleanLiteral")
 public typealias _BuiltinBooleanLiteralConvertible = _ExpressibleByBuiltinBooleanLiteral
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "ExpressibleByBooleanLiteral")
@@ -135,12 +139,17 @@ public typealias ArrayLiteralConvertible = ExpressibleByArrayLiteral
 public typealias DictionaryLiteralConvertible = ExpressibleByDictionaryLiteral
 @available(*, deprecated, message: "it will be replaced or redesigned in Swift 4.0.  Instead of conforming to 'StringInterpolationConvertible', consider adding an 'init(_:String)'")
 public typealias StringInterpolationConvertible = ExpressibleByStringInterpolation
+
+#if !KERNELLIB
+
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "_ExpressibleByColorLiteral")
 public typealias _ColorLiteralConvertible = _ExpressibleByColorLiteral
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "_ExpressibleByImageLiteral")
 public typealias _ImageLiteralConvertible = _ExpressibleByImageLiteral
 @available(*, deprecated/*, obsoleted: 5.0*/, renamed: "_ExpressibleByFileReferenceLiteral")
 public typealias _FileReferenceLiteralConvertible = _ExpressibleByFileReferenceLiteral
+
+#endif
 
 @available(*, deprecated, obsoleted: 5.0, renamed: "ClosedRange.Index")
 public typealias ClosedRangeIndex<T> = ClosedRange<T>.Index where T: Strideable, T.Stride: SignedInteger
@@ -186,7 +195,7 @@ extension _BitwiseOperations {
       lhs = lhs ^ rhs
     }
 }
-
+#if !KERNELLIB
 extension FloatingPoint {
   @available(swift, obsoleted: 4, message: "Please use operators instead.")
   public func negated() -> Self {
@@ -264,6 +273,7 @@ extension BinaryFloatingPoint {
 
 @available(*, unavailable, renamed: "FloatingPoint")
 public typealias FloatingPointType = FloatingPoint
+#endif // !KERNELLIB
 
 // Swift 3 compatibility APIs
 @available(swift, obsoleted: 4, renamed: "BinaryInteger")
@@ -323,12 +333,14 @@ extension ClosedRange where Bound: Strideable, Bound.Stride : SignedInteger {
   }  
 }
 
+#if !KERNELLIB
 extension _ExpressibleByColorLiteral {
   @available(swift, deprecated: 3.2, obsoleted: 4.0, message: "This initializer is only meant to be used by color literals")
   public init(colorLiteralRed red: Float, green: Float, blue: Float, alpha: Float) {
     self.init(_colorLiteralRed: red, green: green, blue: blue, alpha: alpha)
   }
 }
+#endif
 
 extension LazySequenceProtocol {
   /// Returns the non-`nil` results of mapping the given transformation over
@@ -369,6 +381,7 @@ extension LazyMapCollection {
   }
 }
 
+#if !KERNELLIB
 @available(*, unavailable, message: "use += 1")
 @discardableResult
 public prefix func ++ <F: FloatingPoint>(rhs: inout F) -> F {
@@ -396,6 +409,7 @@ extension FloatingPoint {
     return x.magnitude
   }
 }
+#endif
 
 extension FixedWidthInteger {
   /// The empty bitset.
@@ -1123,16 +1137,16 @@ public enum _PlaygroundQuickLook {
   case text(String)
   case int(Int64)
   case uInt(UInt64)
-  case float(Float32)
-  case double(Float64)
+//  case float(Float32)
+//  case double(Float64)
   case image(Any)
   case sound(Any)
   case color(Any)
   case bezierPath(Any)
   case attributedString(Any)
-  case rectangle(Float64, Float64, Float64, Float64)
-  case point(Float64, Float64)
-  case size(Float64, Float64)
+//  case rectangle(Float64, Float64, Float64, Float64)
+//  case point(Float64, Float64)
+//  case size(Float64, Float64)
   case bool(Bool)
   case range(Int64, Int64)
   case view(Any)

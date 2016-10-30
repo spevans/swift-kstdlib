@@ -1464,6 +1464,7 @@ public protocol BinaryInteger :
   /// *Unsigned* integer types can represent only nonnegative values.
   static var isSigned: Bool { get }
 
+#if !KERNELLIB
   /// Creates an integer from the given floating-point value, if it can be
   /// represented exactly.
   ///
@@ -1501,6 +1502,7 @@ public protocol BinaryInteger :
   ///   `source` must be representable in this type after rounding toward
   ///   zero.
   init<T : BinaryFloatingPoint>(_ source: T)
+#endif
 
   /// Creates a new instance from the given integer.
   ///
@@ -2721,6 +2723,7 @@ ${operatorComment(x.nonMaskingOperator, True)}
 }
 
 extension FixedWidthInteger {
+#if !KERNELLIB
   @inlinable // FIXME(sil-serialize-all)
   @_semantics("optimize.sil.specialize.generic.partial.never")
   public // @testable
@@ -2809,6 +2812,7 @@ extension FixedWidthInteger {
     }
     self = value
   }
+#endif // !KERNELLIB
 
   /// Creates a new instance with the representable value that's closest to the
   /// given integer.
@@ -3266,6 +3270,7 @@ public struct ${Self}
     _value = x._value
   }
 
+#if !KERNELLIB
 %   if Self in ['Int32', 'Int64']:
 %     Floating = {32 : 'Float', 64 : 'Double'}[bits]
   @available(*, unavailable,
@@ -3343,6 +3348,7 @@ public struct ${Self}
 %     end
 
 %   end
+#endif // #!KERNELLIB
 
   @inlinable // FIXME(sil-serialize-all)
   @_transparent

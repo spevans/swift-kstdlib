@@ -5,7 +5,7 @@ set(swift_stubs_sources
     KeyPaths.cpp
     LibcShims.cpp
     Stubs.cpp
-    MathStubs.cpp
+    #MathStubs.cpp
 )
 set(swift_stubs_objc_sources
     Availability.mm
@@ -17,6 +17,7 @@ set(swift_stubs_objc_sources
 set(swift_stubs_unicode_normalization_sources
     UnicodeNormalization.cpp)
 set(LLVM_OPTIONAL_SOURCES
+    MathStubs.cpp
     ${swift_stubs_objc_sources}
     ${swift_stubs_unicode_normalization_sources})
 

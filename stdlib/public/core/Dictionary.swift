@@ -2558,10 +2558,10 @@ extension _NativeDictionaryBuffer where Key: Hashable
   @_transparent
   internal static func bucketCount(
     forCapacity capacity: Int,
-    maxLoadFactorInverse: Double
+    maxLoadFactorInverse: Int
   ) -> Int {
     // `capacity + 1` below ensures that we don't fill in the last hole
-    return max(Int((Double(capacity) * maxLoadFactorInverse).rounded(.up)),
+    return max(Int((Int(capacity) * maxLoadFactorInverse)),
                capacity + 1)
   }
 
@@ -3415,7 +3415,7 @@ internal enum _VariantDictionaryBuffer<Key: Hashable, Value>: _HashBuffer {
   internal var capacity: Int {
     switch self {
     case .native:
-      return Int(Double(asNative.bucketCount) /
+      return Int(Int(asNative.bucketCount) /
         _hashContainerDefaultMaxLoadFactorInverse)
 #if _runtime(_ObjC)
     case .cocoa(let cocoaBuffer):

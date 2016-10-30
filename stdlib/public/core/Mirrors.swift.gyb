@@ -18,8 +18,8 @@ from SwiftIntTypes import all_integer_types
 word_bits = int(CMAKE_SIZEOF_VOID_P) * 8
 
 Types = [
-    ('Float', '.float', 'self'),
-    ('Double', '.double', 'self'),
+#    ('Float', '.float', 'self'),
+#    ('Double', '.double', 'self'),
     ('Bool', '.bool', 'self'),
     ('String', '.text', 'self'),
     ('Character', '.text', 'String(self)'),
