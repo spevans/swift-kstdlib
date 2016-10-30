@@ -337,12 +337,15 @@ internal struct _Buffer72 {
   }
 }
 
+#if !KERNELLIB
 % for bits in [ 32, 64, 80 ]:
 
 % if bits == 80:
 #if (!os(Windows) || CYGWIN) && (arch(i386) || arch(x86_64))
 % end
 
+
+@warn_unused_result
 @_silgen_name("swift_float${bits}ToString")
 func _float${bits}ToStringImpl(
   _ buffer: UnsafeMutablePointer<UTF8.CodeUnit>,
@@ -391,7 +394,9 @@ func _float${bits}ToString(_ value: Float${bits}, debug: Bool) -> String {
 % end
 
 % end
+#endif // !KERNELLIB
 
+@warn_unused_result
 @_silgen_name("swift_int64ToString")
 func _int64ToStringImpl(
   _ buffer: UnsafeMutablePointer<UTF8.CodeUnit>,
