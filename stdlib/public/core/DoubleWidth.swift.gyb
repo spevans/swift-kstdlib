@@ -97,6 +97,7 @@ public struct DoubleWidth<Base : FixedWidthInteger> :
     }
   }
 
+#if !KERNELLIB
   public init<T : BinaryFloatingPoint>(_ source: T) {
     fatalError()
   }
@@ -157,6 +158,7 @@ public struct DoubleWidth<Base : FixedWidthInteger> :
       self.init(exactly: integerPart)
     }
   }
+#endif // !KERNENLLIB
 
   public struct Words : Collection {
     public enum _IndexValue {

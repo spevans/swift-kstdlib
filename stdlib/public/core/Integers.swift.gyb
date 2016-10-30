@@ -1352,6 +1352,7 @@ public protocol BinaryInteger :
   /// *Unsigned* integer types can represent only nonnegative values.
   static var isSigned: Bool { get }
 
+#if !KERNELLIB
   /// Creates an integer from the given floating-point value, if it can be
   /// represented exactly.
   ///
@@ -1389,6 +1390,7 @@ public protocol BinaryInteger :
   ///   `source` must be representable in this type after rounding toward
   ///   zero.
   init<T : BinaryFloatingPoint>(_ source: T)
+#endif
 
   /// Creates a new instance from the given integer.
   ///
@@ -1579,25 +1581,6 @@ extension BinaryInteger {
   @_transparent
   public init() {
     self = 0
-  }
-
-  /// Creates an integer from the given floating-point value, if it can be
-  /// represented exactly.
-  ///
-  /// If the value passed as `source` is not representable exactly, the result
-  /// is `nil`. In the following example, the constant `x` is successfully
-  /// created from a value of `21.0`, while the attempt to initialize the
-  /// constant `y` from `21.5` fails:
-  ///
-  ///     let x = Int(exactly: 21.0)
-  ///     // x == Optional(21)
-  ///     let y = Int(exactly: 21.5)
-  ///     // y == nil
-  ///
-  /// - Parameter source: A floating-point value to convert to an integer.
-  public init?<T : BinaryFloatingPoint>(exactly source: T) {
-    // FIXME(integers): implement
-    fatalError()
   }
 
   @_transparent
@@ -2693,6 +2676,7 @@ public struct ${Self}
     _value = x._value
   }
 
+#if !KERNELLIB
 %   if Self in ['Int32', 'Int64']:
 %     Floating = {32 : 'Float', 64 : 'Double'}[bits]
   @available(*, unavailable,
@@ -2768,6 +2752,7 @@ public struct ${Self}
 %     end
 
 %   end
+#endif // #!KERNELLIB
 
   @_transparent
   public static func == (lhs: ${Self}, rhs: ${Self}) -> Bool {
@@ -3211,6 +3196,7 @@ ${assignmentOperatorComment(x.operator, True)}
 }
 %# end of concrete type: ${Self}
 
+#if !KERNELLIB
 extension ${Self} {
   /// Creates an integer from the given floating-point value, rounding toward
   /// zero.
@@ -3250,6 +3236,7 @@ extension ${Self} {
     _preconditionFailure("Conversion is not supported")
   }
 }
+#endif // !KERNELLIB
 
 
 extension ${Self} : Hashable {
