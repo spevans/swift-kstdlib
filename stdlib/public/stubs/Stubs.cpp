@@ -190,6 +190,7 @@ static int swift_snprintf_l(char *Str, size_t StrSize, locale_t Locale,
 }
 #endif
 
+#ifndef KERNELLIB
 template <typename T>
 static uint64_t swift_floatingPointToString(char *Buffer, size_t BufferLength,
                                             T Value, const char *Format, 
@@ -322,6 +323,7 @@ swift::swift_stdlib_readLine_stdin(unsigned char **LinePtr) {
   return getline((char **)LinePtr, &Capacity, stdin);
 #endif
 }
+#endif  // KERNELLIB
 
 
 // Although this builtin is provided by clang rt builtins,
@@ -437,6 +439,7 @@ __mulodi4(di_int a, di_int b, int* overflow)
 }
 #endif
 
+#if !KERNELLIB
 #if defined(__CYGWIN__) || defined(_WIN32)
   #define strcasecmp _stricmp
 #endif
@@ -533,6 +536,7 @@ const char *swift::_swift_stdlib_strtof_clocale(
     nptr, outResult, HUGE_VALF, strtof_l);
 }
 #endif
+#endif  // !KERNELLIB
 
 void swift::_swift_stdlib_flockfile_stdout() {
 #if defined(_WIN32)
