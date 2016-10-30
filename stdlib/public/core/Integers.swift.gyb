@@ -1347,6 +1347,7 @@ public protocol BinaryInteger :
   /// *Unsigned* integer types can represent only nonnegative values.
   static var isSigned: Bool { get }
 
+#if !KERNELLIB
   /// Creates an integer from the given floating-point value, if it can be
   /// represented exactly.
   ///
@@ -1383,6 +1384,7 @@ public protocol BinaryInteger :
   /// - Parameter source: A floating-point value to convert to an integer.
   ///   `source` must be representable in this type after truncation.
   init<T : FloatingPoint>(_ source: T)
+#endif
 
   /// Creates a new instance from the given integer.
   ///
@@ -1561,11 +1563,13 @@ extension BinaryInteger {
     self = 0
   }
 
+#if !KERNELLIB
   public init?<T : FloatingPoint>(exactly source: T) {
     // FIXME(integers): implement
     fatalError()
     return nil
   }
+#endif
 
   @_transparent
   public func signum() -> Self {
@@ -2570,7 +2574,7 @@ public struct ${Self}
   public init(bitPattern x: ${OtherSelf}) {
     _value = x._value
   }
-
+#if !KERNELLIB
 %   if Self in ['Int32', 'Int64']:
 %     Floating = {32 : 'Float', 64 : 'Double'}[bits]
   @_transparent
@@ -2611,7 +2615,7 @@ public struct ${Self}
 %     end
 
 %   end
-
+#endif // #!KERNELLIB
   @_transparent
   public static func == (lhs: ${Self}, rhs: ${Self}) -> Bool {
     return Bool(Builtin.cmp_eq_Int${bits}(lhs._value, rhs._value))
@@ -3093,7 +3097,7 @@ ${operatorComment(x.operator, True)}
   public static var _sizeInBytes: ${Self} { return ${bits}/8 }
 }
 %# end of concrete type: ${Self}
-
+#if !KERNELLIB
 extension ${Self} {
   // FIXME(integers): implement me in a less terrible way
   public init<T : FloatingPoint>(_ source: T) {
@@ -3113,7 +3117,7 @@ extension ${Self} {
     _preconditionFailure("Conversion is not supported")
   }
 }
-
+#endif // !KERNELLIB
 
 extension ${Self} : Hashable {
   /// The integer's hash value.
@@ -3294,6 +3298,7 @@ public struct DoubleWidth<T : FixedWidthInteger>
     fatalError()
   }
 
+#if !KERNELLIB
   public init<T : FloatingPoint>(_ source: T) {
     fatalError()
   }
@@ -3301,6 +3306,7 @@ public struct DoubleWidth<T : FixedWidthInteger>
   public init?<T : FloatingPoint>(exactly source: T) {
     fatalError()
   }
+#endif // !KERNELLIB
 
   public func word(at n: Int) -> UInt {
     if T.bitWidth < ${word_bits} || T.bitWidth % ${word_bits} != 0 {

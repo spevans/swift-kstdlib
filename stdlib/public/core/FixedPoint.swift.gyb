@@ -527,6 +527,8 @@ extension ${Self} {
 % end
 
 extension ${Self} {
+
+#if !KERNELLIB
 // Construction of integers from floating point numbers.
 %   for src_type in all_floating_point_types():
 %     Src = src_type.stdlib_name
@@ -566,6 +568,8 @@ extension ${Self} {
 #endif
 %     end
 %   end
+
+#endif // KERNELLIB
 
   /// Construct a `${Self}` having the same memory representation as
   /// the `${OtherSelf}` `bitPattern`.  No range or overflow checking
