@@ -375,6 +375,10 @@ option(SWIFT_ENABLE_STDLIBCORE_EXCLUSIVITY_CHECKING
   "Build stdlibCore with exclusivity checking enabled"
   FALSE)
 
+option(SWIFT_STDLIB_DISABLE_RED_ZONE
+    "Disable Red Zone code generated when building the standard library"
+    FALSE)
+
 #
 # End of user-configurable options.
 #
