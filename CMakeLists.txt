@@ -296,6 +296,10 @@ option(SWIFT_STDLIB_ENABLE_SIL_OWNERSHIP
   "Build the standard libraries and overlays with sil ownership enabled."
   FALSE)
 
+option(SWIFT_STDLIB_DISABLE_RED_ZONE
+    "Disable Red Zone code generated when building the standard library"
+    FALSE)
+
 #
 # End of user-configurable options.
 #
