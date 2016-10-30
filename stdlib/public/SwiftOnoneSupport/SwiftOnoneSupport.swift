@@ -138,8 +138,10 @@ struct _Prespecialize {
 
     // Force pre-specialization of arrays with elements of different
     // floating point types.
+#if !KERNELLIB
     _createArrayUser(1.5 as Float)
     _createArrayUser(1.5 as Double)
+#endif
 
     // Force pre-specialization of string arrays
     _createArrayUser("a" as String)

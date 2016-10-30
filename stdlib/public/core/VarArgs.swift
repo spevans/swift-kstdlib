@@ -316,6 +316,7 @@ extension AutoreleasingUnsafeMutablePointer : CVarArg {
 }
 #endif
 
+#if !KERNELLIB
 extension Float : _CVarArgPassedAsDouble, _CVarArgAligned {
   /// Transform `self` into a series of machine words that can be
   /// appropriately interpreted by C varargs.
@@ -349,6 +350,7 @@ extension Double : _CVarArgPassedAsDouble, _CVarArgAligned {
     return MemoryLayout.alignment(ofValue: self)
   }
 }
+#endif // !KERNELLIB
 
 #if arch(x86_64)
 

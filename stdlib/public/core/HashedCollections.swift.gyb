@@ -256,8 +256,8 @@ internal protocol _HashBuffer {
 @_inlineable // FIXME(sil-serialize-all)
 @_versioned // FIXME(sil-serialize-all)
 @_transparent
-internal var _hashContainerDefaultMaxLoadFactorInverse: Double {
-  return 1.0 / 0.75
+internal var _hashContainerDefaultMaxLoadFactorInverse: Int {
+  return 2 //1.0 / 0.75
 }
 
 #if _runtime(_ObjC)
@@ -4016,12 +4016,13 @@ extension _Native${Self}Buffer
   @_inlineable // FIXME(sil-serialize-all)
   @_versioned // FIXME(sil-serialize-all)
   @_transparent
+  @warn_unused_result
   internal static func minimumCapacity(
     minimumCount: Int,
-    maxLoadFactorInverse: Double
+    maxLoadFactorInverse: Int
   ) -> Int {
     // `minimumCount + 1` below ensures that we don't fill in the last hole
-    return max(Int(Double(minimumCount) * maxLoadFactorInverse),
+    return max(Int(Int(minimumCount) * maxLoadFactorInverse),
                minimumCount + 1)
   }
 
@@ -4989,8 +4990,7 @@ internal enum _Variant${Self}Buffer<${TypeParametersDecl}> : _HashBuffer {
   internal var effectiveCapacity: Int {
     switch self {
     case .native:
-      return Int(Double(asNative.capacity) /
-        _hashContainerDefaultMaxLoadFactorInverse)
+      return asNative.capacity / _hashContainerDefaultMaxLoadFactorInverse
 #if _runtime(_ObjC)
     case .cocoa(let cocoaBuffer):
       return cocoaBuffer.count
