@@ -69,7 +69,7 @@ set(SWIFTLIB_ESSENTIAL
   ImplicitlyUnwrappedOptional.swift
   Index.swift
   Indices.swift.gyb
-  InputStream.swift
+#  InputStream.swift
   #IntegerArithmetic.swift.gyb
   IntegerParsing.swift.gyb
   Integers.swift.gyb
@@ -150,7 +150,7 @@ set(SWIFTLIB_SOURCES
   CollectionOfOne.swift
   ExistentialCollection.swift.gyb
   Mirror.swift
-  CommandLine.swift
+  #CommandLine.swift
   SliceBuffer.swift
   Tuple.swift.gyb
   UnfoldSequence.swift
