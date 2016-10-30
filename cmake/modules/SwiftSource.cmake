@@ -249,6 +249,13 @@ function(_compile_swift_files
     list(APPEND swift_flags "-Xfrontend" "-emit-sorted-sil")
   endif()
 
+  if(SWIFTFILE_IS_STDLIB AND SWIFT_STDLIB_DISABLE_RED_ZONE)
+    list(APPEND swift_flags "-Xfrontend" "-disable-red-zone" "-Xcc" "-mno-red-zone")
+    list(APPEND swift_flags "-Xfrontend" "-mcode-model=kernel" "-Xcc" "-mcmodel=kernel")
+    list(APPEND swift_flags "-Xcc" "-mno-mmx" "-Xcc" "-mno-sse" "-Xcc" "-mno-sse2")
+    list(APPEND swift_flags "-D" "KERNELLIB")
+  endif()
+
   # FIXME: Cleaner way to do this?
   if(SWIFTFILE_IS_STDLIB_CORE)
     list(APPEND swift_flags

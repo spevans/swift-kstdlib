@@ -47,6 +47,10 @@ if(CXX_SUPPORTS_DEFAULT_HIDDEN_VISIBILITY)
   list(APPEND SWIFT_RUNTIME_CORE_CXX_FLAGS "-fvisibility=hidden")
 endif()
 
+if (SWIFT_STDLIB_DISABLE_RED_ZONE)
+  list(APPEND SWIFT_RUNTIME_CORE_CXX_FLAGS "-mno-red-zone" "-mcmodel=kernel" "-mno-mmx" "-mno-sse" "-mno-sse2" "-DKERNELLIB")
+endif()
+
 if(SWIFT_BUILD_STDLIB)
   # These must be kept in dependency order so that any referenced targets
   # exist at the time we look for them in add_swift_*.
