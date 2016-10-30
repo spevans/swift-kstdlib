@@ -69,6 +69,7 @@ int swift::_swift_stdlib_memcmp(const void *s1, const void *s2,
   return memcmp(s1, s2, n);
 }
 
+#if !KERNELLIB
 SWIFT_RUNTIME_STDLIB_INTERFACE
 __swift_ssize_t
 swift::_swift_stdlib_read(int fd, void *buf, __swift_size_t nbyte) {
@@ -97,6 +98,7 @@ int swift::_swift_stdlib_close(int fd) {
   return close(fd);
 #endif
 }
+#endif  // KERNELLIB
 
 // Guard compilation on the typedef for __swift_pthread_key_t in LibcShims.h
 // being identical to the platform's pthread_key_t
