@@ -125,6 +125,7 @@ extension DoubleWidth: Numeric {
   }
 }
 
+#if !KERNELLIB
 extension DoubleWidth {
   @_inlineable // FIXME(sil-serialize-all)
   public init<T : BinaryFloatingPoint>(_ source: T) {
@@ -191,6 +192,7 @@ extension DoubleWidth {
     }
   }
 }
+#endif // !KERNENLLIB
 
 extension DoubleWidth: FixedWidthInteger {
   @_fixed_layout // FIXME(sil-serialize-all)

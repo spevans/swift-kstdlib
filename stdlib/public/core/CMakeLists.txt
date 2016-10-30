@@ -33,7 +33,7 @@ set(SWIFTLIB_ESSENTIAL
   BridgeObjectiveC.swift
   BridgeStorage.swift
   Builtin.swift
-  BuiltinMath.swift.gyb
+#  BuiltinMath.swift.gyb
   Character.swift
   CharacterUnicodeScalars.swift
   CocoaArray.swift
@@ -58,9 +58,9 @@ set(SWIFTLIB_ESSENTIAL
   FixedArray.swift.gyb
   FlatMap.swift
   Flatten.swift
-  FloatingPoint.swift.gyb
-  FloatingPointParsing.swift.gyb
-  FloatingPointTypes.swift.gyb
+#  FloatingPoint.swift.gyb
+#  FloatingPointParsing.swift.gyb
+#  FloatingPointTypes.swift.gyb
   Hashable.swift
   HashedCollections.swift.gyb
   # WORKAROUND: This file name is not sorted alphabetically in the list because

@@ -310,6 +310,7 @@ size_t swift::_stdlib_malloc_size(const void *ptr) {
 #error No malloc_size analog known for this platform/libc.
 #endif
 
+#if !KERNELLIB
 static Lazy<std::mt19937> theGlobalMT19937;
 
 static std::mt19937 &getGlobalMT19937() {
@@ -329,3 +330,4 @@ swift::_stdlib_cxx11_mt19937_uniform(__swift_uint32_t upper_bound) {
   std::uniform_int_distribution<__swift_uint32_t> RandomUniform(0, upper_bound);
   return RandomUniform(getGlobalMT19937());
 }
+#endif // KERNELLIB
