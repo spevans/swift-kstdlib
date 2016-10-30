@@ -300,6 +300,10 @@ option(SWIFT_ENABLE_GUARANTEED_NORMAL_ARGUMENTS
   "Build the standard libraries, overlays, and runtime with normal arguments at +0"
   FALSE)
 
+option(SWIFT_STDLIB_DISABLE_RED_ZONE
+    "Disable Red Zone code generated when building the standard library"
+    FALSE)
+
 #
 # End of user-configurable options.
 #
