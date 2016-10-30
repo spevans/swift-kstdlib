@@ -72,6 +72,7 @@ int swift::_swift_stdlib_memcmp(const void *s1, const void *s2,
   return memcmp(s1, s2, n);
 }
 
+#if !KERNELLIB
 SWIFT_RUNTIME_STDLIB_INTERFACE
 __swift_ssize_t
 swift::_swift_stdlib_read(int fd, void *buf, __swift_size_t nbyte) {
@@ -100,6 +101,7 @@ int swift::_swift_stdlib_close(int fd) {
   return close(fd);
 #endif
 }
+#endif  // KERNELLIB
 
 #if defined(_WIN32)
 static_assert(std::is_same<__swift_thread_key_t, DWORD>::value,
