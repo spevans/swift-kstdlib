@@ -289,6 +289,10 @@ option(SWIFT_STDLIB_SIL_SERIALIZE_ALL
     "Build the standard libraries and overlays serializing all method bodies"
     TRUE)
 
+option(SWIFT_STDLIB_DISABLE_RED_ZONE
+    "Disable Red Zone code generated when building the standard library"
+    FALSE)
+
 if(SWIFT_SERIALIZE_STDLIB_UNITTEST AND SWIFT_STDLIB_ENABLE_RESILIENCE)
   message(WARNING "Ignoring SWIFT_SERIALIZE_STDLIB_UNITTEST because SWIFT_STDLIB_ENABLE_RESILIENCE is set")
   set(SWIFT_SERIALIZE_STDLIB_UNITTEST FALSE)
