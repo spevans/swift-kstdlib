@@ -39,7 +39,7 @@ set(SWIFTLIB_ESSENTIAL
   Character.swift
   CharacterUnicodeScalars.swift
   CocoaArray.swift
-  Codable.swift.gyb
+#  Codable.swift.gyb
   Collection.swift
   CollectionAlgorithms.swift
   Comparable.swift
@@ -74,7 +74,7 @@ set(SWIFTLIB_ESSENTIAL
   HeapBuffer.swift
   ICU.swift
   Indices.swift
-  InputStream.swift
+#  InputStream.swift
   IntegerParsing.swift
   Integers.swift.gyb
   Join.swift
@@ -178,8 +178,8 @@ set(SWIFTLIB_SOURCES
   CollectionOfOne.swift
   ExistentialCollection.swift.gyb
   Mirror.swift
-  PlaygroundDisplay.swift
-  CommandLine.swift
+  #PlaygroundDisplay.swift
+  #CommandLine.swift
   SliceBuffer.swift
   Tuple.swift.gyb
   UnfoldSequence.swift
