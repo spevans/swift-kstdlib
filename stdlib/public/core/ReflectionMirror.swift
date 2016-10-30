@@ -148,7 +148,8 @@ extension Mirror {
     self.subjectType = subjectType
     self._defaultDescendantRepresentation = .generated
   }
-  
+
+#if !KERNELLIB
   internal static func quickLookObject(_ subject: Any) -> _PlaygroundQuickLook? {
 #if _runtime(_ObjC)
     let object = _getQuickLookObject(subject)
@@ -157,4 +158,5 @@ extension Mirror {
     return nil
 #endif
   }
+#endif
 }

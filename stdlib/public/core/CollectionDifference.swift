@@ -369,6 +369,7 @@ extension CollectionDifference where ChangeElement: Hashable {
   }
 }
 
+#if !KERNELLIB
 @available(macOS 9999, iOS 9999, tvOS 9999, watchOS 9999, *) // FIXME(availability-5.1)
 extension CollectionDifference.Change: Codable where ChangeElement: Codable {
   private enum _CodingKeys: String, CodingKey {
@@ -408,3 +409,4 @@ extension CollectionDifference.Change: Codable where ChangeElement: Codable {
 
 @available(macOS 9999, iOS 9999, tvOS 9999, watchOS 9999, *) // FIXME(availability-5.1)
 extension CollectionDifference: Codable where ChangeElement: Codable {}
+#endif // !KERNELLIB
