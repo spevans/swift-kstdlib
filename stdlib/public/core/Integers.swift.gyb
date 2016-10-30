@@ -1316,6 +1316,7 @@ public protocol BinaryInteger :
   /// *Unsigned* integer types can represent only nonnegative values.
   static var isSigned: Bool { get }
 
+#if !KERNELLIB
   /// Creates an integer from the given floating-point value, if it can be
   /// represented exactly.
   ///
@@ -1349,6 +1350,7 @@ public protocol BinaryInteger :
   /// - Parameter source: A floating-point value to convert to an integer.
   ///   `source` must be representable in this type after rounding toward zero.
   init<T : BinaryFloatingPoint>(_ source: T)
+#endif
 
   /// Creates a new instance from the given integer.
   ///
@@ -1539,10 +1541,12 @@ extension BinaryInteger {
     self = 0
   }
 
+#if !KERNELLIB
   public init?<T : BinaryFloatingPoint>(exactly source: T) {
     // FIXME(integers): implement
     fatalError()
   }
+#endif
 
   @_transparent
   public func signum() -> Self {
@@ -2536,6 +2540,7 @@ public struct ${Self}
     _value = x._value
   }
 
+#if !KERNELLIB
 %   if Self in ['Int32', 'Int64']:
 %     Floating = {32 : 'Float', 64 : 'Double'}[bits]
   @available(*, unavailable,
@@ -2577,6 +2582,7 @@ public struct ${Self}
 %     end
 
 %   end
+#endif // #!KERNELLIB
 
   @_transparent
   public static func == (lhs: ${Self}, rhs: ${Self}) -> Bool {
@@ -2917,6 +2923,7 @@ ${assignmentOperatorComment(x.operator, True)}
 }
 %# end of concrete type: ${Self}
 
+#if !KERNELLIB
 extension ${Self} {
   // FIXME(integers): implement me in a less terrible way
   public init<T : BinaryFloatingPoint>(_ source: T) {
@@ -2936,6 +2943,7 @@ extension ${Self} {
     _preconditionFailure("Conversion is not supported")
   }
 }
+#endif // !KERNELLIB
 
 
 extension ${Self} : Hashable {
