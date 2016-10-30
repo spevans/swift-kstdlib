@@ -179,9 +179,11 @@ public protocol BinaryInteger :
   func isEqual(to rhs: Self) -> Bool
   func isLess(than rhs: Self) -> Bool
 
+#if !KERNELLIB
   init?<T : FloatingPoint>(exactly source: T)
 
   init<T : FloatingPoint>(_ source: T)
+#endif
 
   init<T : BinaryInteger>(_ source: T)
 
@@ -212,6 +214,7 @@ public protocol BinaryInteger :
 }
 
 extension BinaryInteger {
+#if !KERNELLIB
   public init?<T : FloatingPoint>(exactly source: T) {
     // FIXME(integers): implement
     fatalError()
@@ -222,6 +225,7 @@ extension BinaryInteger {
     // FIXME(integers): implement
     fatalError()
   }
+#endif
 
   public func signum() -> Self {
     // FIXME(integers): implement
