@@ -65,7 +65,7 @@ set(SWIFTLIB_ESSENTIAL
   FixedArray.swift
   FlatMap.swift
   Flatten.swift
-  FloatingPoint.swift
+#  FloatingPoint.swift
   Hashable.swift
   # WORKAROUND: This file name is not sorted alphabetically in the list because
   # if we do so, the compiler crashes.
@@ -185,8 +185,8 @@ set(SWIFTLIB_ESSENTIAL
 set(SWIFTLIB_ESSENTIAL_GYB_SOURCES
   AtomicInt.swift.gyb
   Codable.swift.gyb
-  FloatingPointParsing.swift.gyb
-  FloatingPointTypes.swift.gyb
+#  FloatingPointParsing.swift.gyb
+#  FloatingPointTypes.swift.gyb
   IntegerTypes.swift.gyb
   Mirrors.swift.gyb
   Runtime.swift.gyb
@@ -218,8 +218,8 @@ set(SWIFTLIB_SOURCES
 set(SWIFTLIB_GYB_SOURCES
   ${SWIFTLIB_ESSENTIAL_GYB_SOURCES}
   ExistentialCollection.swift.gyb
-  MathFunctions.swift.gyb
-  SIMDVectorTypes.swift.gyb
+#  MathFunctions.swift.gyb
+#  SIMDVectorTypes.swift.gyb
   Tuple.swift.gyb
   )
 set(GROUP_INFO_JSON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/GroupInfo.json)

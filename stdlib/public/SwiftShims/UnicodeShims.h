@@ -549,9 +549,10 @@ __swift_int32_t __swift_stdlib_u_strToUpper(
     const __swift_stdlib_UChar *src, __swift_int32_t srcLength,
     const char *_Nullable locale, __swift_stdlib_UErrorCode *pErrorCode);
 
+#if !KERNELLIB
 SWIFT_RUNTIME_STDLIB_API
 double __swift_stdlib_u_getNumericValue(__swift_stdlib_UChar32 c);
-
+#endif
 
 #ifdef __cplusplus
 }} // extern "C", namespace swift

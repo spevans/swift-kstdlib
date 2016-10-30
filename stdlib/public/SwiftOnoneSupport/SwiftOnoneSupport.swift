@@ -387,8 +387,10 @@ func prespecializeAll() {
   prespecializeCollections("a".utf16)
   prespecializeCollections("a".unicodeScalars)
   prespecializeCollections("a" as String)
+#if !KERNELLIB
   prespecializeCollections(1.5 as Double)
   prespecializeCollections(1.5 as Float)
+#endif
   prespecializeCollections(1 as Int)
   prespecializeCollections(1 as UInt)
   prespecializeCollections(1 as Int8)

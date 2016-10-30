@@ -20,8 +20,9 @@ import SwiftShims
 /// can be used in multiple places in the implementation and stay consistent.
 /// Should not be used outside `Dictionary` implementation.
 @usableFromInline @_transparent
-internal var _hashContainerDefaultMaxLoadFactorInverse: Double {
-  return 1.0 / 0.75
+internal var _hashContainerDefaultMaxLoadFactorInverse: Int {
+  //return 1.0 / 0.75
+  return 2
 }
 
 #if _runtime(_ObjC)

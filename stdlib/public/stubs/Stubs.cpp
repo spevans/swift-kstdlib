@@ -207,6 +207,7 @@ static int swift_snprintf_l(char *Str, size_t StrSize, locale_t Locale,
 }
 #endif
 
+#ifndef KERNELLIB
 template <typename T>
 static uint64_t swift_floatingPointToString(char *Buffer, size_t BufferLength,
                                             T Value, const char *Format, 
@@ -499,6 +500,7 @@ const char *swift::_swift_stdlib_strtof_clocale(
     nptr, outResult, HUGE_VALF, strtof_l);
 }
 #endif
+#endif  // !KERNELLIB
 
 void swift::_swift_stdlib_flockfile_stdout() {
 #if defined(_WIN32)

@@ -55,7 +55,7 @@ set(swift_runtime_sources
     MetadataLookup.cpp
     MutexPThread.cpp
     MutexWin32.cpp
-    Numeric.cpp
+    #Numeric.cpp
     Once.cpp
     Portability.cpp
     ProtocolConformance.cpp
@@ -79,6 +79,7 @@ endif(LLVM_ENABLE_ASSERTIONS)
 set(LLVM_OPTIONAL_SOURCES
     MutexPThread.cpp
     MutexWin32.cpp
+    Numeric.cpp
     CygwinPort.cpp
     ImageInspectionELF.cpp
     StaticBinaryELF.cpp

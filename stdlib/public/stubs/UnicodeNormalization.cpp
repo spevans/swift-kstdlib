@@ -300,10 +300,11 @@ __swift_int32_t swift::__swift_stdlib_u_strToUpper(
                       locale, ptr_cast<UErrorCode>(pErrorCode));
 }
 
+#if !KERNELLIB
 double swift::__swift_stdlib_u_getNumericValue(__swift_stdlib_UChar32 c) {
   return u_getNumericValue(c);
 }
-
+#endif
 
 // Force an autolink with ICU
 #if defined(__MACH__)
