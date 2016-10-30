@@ -592,7 +592,9 @@ public protocol BinaryInteger :
   ///     // y == nil
   ///
   /// - Parameter source: A floating-point value to convert to an integer.
+#if !KERNELLIB
   init?<T: BinaryFloatingPoint>(exactly source: T)
+#endif
 
   /// Creates an integer from the given floating-point value, rounding toward
   /// zero.
@@ -614,8 +616,10 @@ public protocol BinaryInteger :
   /// - Parameter source: A floating-point value to convert to an integer.
   ///   `source` must be representable in this type after rounding toward
   ///   zero.
+#if !KERNELLIB
   init<T: BinaryFloatingPoint>(_ source: T)
 
+#endif
   /// Creates a new instance from the given integer.
   ///
   /// If the value passed as `source` is not representable in this type, a
@@ -3000,6 +3004,7 @@ extension FixedWidthInteger {
 }
 
 extension FixedWidthInteger {
+#if !KERNELLIB
   @inlinable
   @_semantics("optimize.sil.specialize.generic.partial.never")
   public // @testable
@@ -3087,6 +3092,7 @@ extension FixedWidthInteger {
     }
     self = value
   }
+#endif // !KERNELLIB
 
   /// Creates a new instance with the representable value that's closest to the
   /// given integer.

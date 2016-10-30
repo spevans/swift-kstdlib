@@ -55,7 +55,7 @@ set(swift_runtime_sources
     MetadataLookup.cpp
     MutexPThread.cpp
     MutexWin32.cpp
-    Numeric.cpp
+    #Numeric.cpp
     Once.cpp
     Portability.cpp
     ProtocolConformance.cpp
@@ -77,6 +77,7 @@ endif(LLVM_ENABLE_ASSERTIONS)
 
 # Acknowledge that the following sources are known.
 set(LLVM_OPTIONAL_SOURCES
+    Numeric.cpp
     SwiftRT-COFF.cpp
     SwiftRT-ELF.cpp
     ${swift_runtime_sources}

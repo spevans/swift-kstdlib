@@ -56,6 +56,7 @@ public typealias CLong = Int
 /// The C 'long long' type.
 public typealias CLongLong = Int64
 
+#if !KERNELLIB
 /// The C 'float' type.
 public typealias CFloat = Float
 
@@ -94,6 +95,8 @@ public typealias CLongDouble = Double
 public typealias CLongDouble = Double
 #endif
 #endif
+
+#endif // !KERNELLIB
 
 // FIXME: Is it actually UTF-32 on Darwin?
 //

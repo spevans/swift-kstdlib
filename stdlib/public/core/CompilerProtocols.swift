@@ -923,6 +923,7 @@ public protocol StringInterpolationProtocol {
   //   mutating func appendInterpolation<T: Encodable>(json: T) throws
 }
 
+#if !KERNELLIB
 /// A type that can be initialized using a color literal (e.g.
 /// `#colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)`).
 public protocol _ExpressibleByColorLiteral {
@@ -933,6 +934,8 @@ public protocol _ExpressibleByColorLiteral {
   /// constant using a color literal.
   init(_colorLiteralRed red: Float, green: Float, blue: Float, alpha: Float)
 }
+
+#endif // !KERNELLIB
 
 /// A type that can be initialized using an image literal (e.g.
 /// `#imageLiteral(resourceName: "hi.png")`).

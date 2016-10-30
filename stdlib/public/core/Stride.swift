@@ -171,6 +171,7 @@ extension Strideable {
   }
 }
 
+#if !KERNELLIB
 extension Strideable where Stride: FloatingPoint {
   @inlinable // protocol-only
   public static func _step(
@@ -201,6 +202,7 @@ extension Strideable where Self: FloatingPoint, Self == Stride {
     return (nil, current.value.advanced(by: distance))
   }
 }
+#endif
 
 /// An iterator for a `StrideTo` instance.
 @frozen

@@ -90,6 +90,7 @@ extension Character {
     }
   }
 
+#if !KERNELLIB
   /// A Boolean value indicating whether this character represents a number.
   ///
   /// For example, the following characters all represent numbers:
@@ -136,6 +137,7 @@ extension Character {
     guard let value = _firstScalar.properties.numericValue else { return nil }
     return Int(exactly: value)
   }
+#endif
 
   /// A Boolean value indicating whether this character represents a
   /// hexadecimal digit.

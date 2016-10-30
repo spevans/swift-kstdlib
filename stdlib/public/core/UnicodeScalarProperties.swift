@@ -1396,9 +1396,11 @@ extension Unicode.Scalar.Properties {
   ///
   /// This property corresponds to the "Numeric_Value" property in the [Unicode
   /// Standard](http://www.unicode.org/versions/latest/).
+#if !KERNELLIB
   public var numericValue: Double? {
     let icuNoNumericValue: Double = -123456789
     let result = __swift_stdlib_u_getNumericValue(icuValue)
     return result != icuNoNumericValue ? result : nil
   }
+#endif
 }

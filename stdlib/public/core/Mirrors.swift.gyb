@@ -18,8 +18,8 @@ from SwiftIntTypes import all_integer_types
 word_bits = int(CMAKE_SIZEOF_VOID_P) * 8
 
 Types = [
-    ('Float', '.float', 'self'),
-    ('Double', '.double', 'self'),
+#    ('Float', '.float', 'self'),
+#    ('Double', '.double', 'self'),
     ('Bool', '.bool', 'self'),
     ('String', '.text', 'self'),
     ('Character', '.text', 'String(self)'),
@@ -44,6 +44,7 @@ extension ${Type[0]}: CustomReflectable {
   }
 }
 
+#if !KERNELLIB
 extension ${Type[0]}: _CustomPlaygroundQuickLookable {
   /// A custom playground Quick Look for the `${Type[0]}` instance.
   @available(*, deprecated, message: "${Type[0]}.customPlaygroundQuickLook will be removed in a future Swift version")
@@ -51,8 +52,10 @@ extension ${Type[0]}: _CustomPlaygroundQuickLookable {
     return ${Type[1]}(${Type[2]})
   }
 }
+#endif
 % end
 
+#if !KERNELLIB
 #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
 extension Float80: CustomReflectable {
   /// A mirror that reflects the Float80 instance.
@@ -60,6 +63,7 @@ extension Float80: CustomReflectable {
     return Mirror(self, unlabeledChildren: EmptyCollection<Void>())
   }
 }
+#endif
 #endif
 
 // ${'Local Variables'}:

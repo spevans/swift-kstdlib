@@ -150,6 +150,7 @@ internal struct _Buffer72 {
   }
 }
 
+#if !KERNELLIB
 % for bits in [ 32, 64, 80 ]:
 
 % if bits == 80:
@@ -179,6 +180,7 @@ internal func _float${bits}ToString(
 % end
 
 % end
+#endif // !KERNELLIB
 
 @_silgen_name("swift_int64ToString")
 internal func _int64ToStringImpl(

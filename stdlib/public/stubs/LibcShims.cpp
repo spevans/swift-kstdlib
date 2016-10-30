@@ -38,6 +38,8 @@ static_assert(std::is_same<mode_t, swift::__swift_mode_t>::value,
               "__swift_mode_t must be defined as equivalent to mode_t in LibcShims.h");
 #endif
 
+#if !KERNELLIB
+
 SWIFT_RUNTIME_STDLIB_INTERNAL
 int swift::_swift_stdlib_putchar_unlocked(int c) {
 #if defined(_WIN32)
@@ -82,3 +84,5 @@ int swift::_swift_stdlib_close(int fd) {
   return close(fd);
 #endif
 }
+
+#endif // !KERNELLIB

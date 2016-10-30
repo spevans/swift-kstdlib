@@ -100,6 +100,7 @@ public typealias DefaultBidirectionalIndices<T> = DefaultIndices<T> where T: Bid
 @available(swift, deprecated: 4.0, obsoleted: 5.0, renamed: "DefaultIndices")
 public typealias DefaultRandomAccessIndices<T> = DefaultIndices<T> where T: RandomAccessCollection
 
+#if !KERNELLIB
 // Deprecated by SE-0115.
 @available(swift, deprecated: 3.0, obsoleted: 5.0, renamed: "ExpressibleByNilLiteral")
 public typealias NilLiteralConvertible = ExpressibleByNilLiteral
@@ -139,6 +140,7 @@ public typealias _ColorLiteralConvertible = _ExpressibleByColorLiteral
 public typealias _ImageLiteralConvertible = _ExpressibleByImageLiteral
 @available(swift, deprecated: 3.0, obsoleted: 5.0, renamed: "_ExpressibleByFileReferenceLiteral")
 public typealias _FileReferenceLiteralConvertible = _ExpressibleByFileReferenceLiteral
+#endif // !KERNELLIB
 
 @available(swift, deprecated: 4.2, obsoleted: 5.0, renamed: "ClosedRange.Index")
 public typealias ClosedRangeIndex<T> = ClosedRange<T>.Index where T: Strideable, T.Stride: SignedInteger
@@ -236,12 +238,14 @@ extension String {
   }
 }
 
+#if !KERNELLIB
 extension String.UnicodeScalarView: _CustomPlaygroundQuickLookable {
   @available(swift, deprecated: 4.2/*, obsoleted: 5.0*/, message: "UnicodeScalarView.customPlaygroundQuickLook will be removed in Swift 5.0")
   public var customPlaygroundQuickLook: _PlaygroundQuickLook {
     return .text(description)
   }
 }
+#endif // !KERNELLIB
 
 //===--- Slicing Support --------------------------------------------------===//
 
@@ -255,6 +259,7 @@ public typealias UTF32 = Unicode.UTF32
 public typealias UnicodeScalar = Unicode.Scalar
 
 
+#if !KERNELLIB
 extension String.UTF16View: _CustomPlaygroundQuickLookable {
   @available(swift, deprecated: 4.2/*, obsoleted: 5.0*/, message: "UTF16View.customPlaygroundQuickLook will be removed in Swift 5.0")
   public var customPlaygroundQuickLook: _PlaygroundQuickLook {
@@ -268,6 +273,7 @@ extension String.UTF8View: _CustomPlaygroundQuickLookable {
     return .text(description)
   }
 }
+#endif // !KERNELLIB
 
 extension Substring {
   /// A view of a string's contents as a collection of characters.
@@ -309,12 +315,14 @@ extension Substring {
   }
 }
 
+#if !KERNELLIB
 extension Substring: _CustomPlaygroundQuickLookable {
   @available(swift, deprecated: 4.2/*, obsoleted: 5.0*/, message: "Substring.customPlaygroundQuickLook will be removed in Swift 5.0")
   public var customPlaygroundQuickLook: _PlaygroundQuickLook {
     return String(self).customPlaygroundQuickLook
   }
 }
+#endif // !KERNELLIB
 
 extension Collection {
   // FIXME: <rdar://problem/34142121>
@@ -402,6 +410,7 @@ extension UnsafeMutableRawPointer {
   public init?<T>(_ from: UnsafePointer<T>?) { Builtin.unreachable() }
 }
 
+#if !KERNELLIB
 extension UnsafeRawPointer: _CustomPlaygroundQuickLookable {
   internal var summary: String {
     let ptrValue = UInt64(
@@ -459,6 +468,8 @@ extension UnsafeMutablePointer: _CustomPlaygroundQuickLookable {
     return .text(summary)
   }
 }
+#endif // !KERNELLBI
+
 
 @available(swift, deprecated: 4.1, obsoleted: 5.0, renamed: "UnsafeBufferPointer.Iterator")
 public typealias UnsafeBufferPointerIterator<T> = UnsafeBufferPointer<T>.Iterator
@@ -584,6 +595,7 @@ extension Zip2Sequence {
 }
 
 
+#if !KERNELLIB
 //===--- QuickLooks -------------------------------------------------------===//
 
 /// The sum of types that can be used as a Quick Look representation.
@@ -705,3 +717,4 @@ public typealias _DefaultCustomPlaygroundQuickLookable = __DefaultCustomPlaygrou
 public protocol __DefaultCustomPlaygroundQuickLookable {
   var _defaultCustomPlaygroundQuickLook: _PlaygroundQuickLook { get }
 }
+#endif // !KERNELLIB

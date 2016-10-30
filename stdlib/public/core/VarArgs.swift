@@ -366,6 +366,7 @@ extension AutoreleasingUnsafeMutablePointer: CVarArg {
 }
 #endif
 
+#if !KERNELLIB
 extension Float: _CVarArgPassedAsDouble, _CVarArgAligned {
   /// Transform `self` into a series of machine words that can be
   /// appropriately interpreted by C varargs.
@@ -418,6 +419,8 @@ extension Float80: CVarArg, _CVarArgAligned {
   }
 }
 #endif
+
+#endif // !KERNELLIB
 
 #if (arch(x86_64) && !os(Windows)) || arch(s390x) || (arch(arm64) && !(os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(Windows)))
 

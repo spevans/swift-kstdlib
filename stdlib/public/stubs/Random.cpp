@@ -67,6 +67,14 @@ void swift::swift_stdlib_random(void *buf, __swift_size_t nbytes) {
   }
 }
 
+#elif defined KERNELLIB
+
+SWIFT_RUNTIME_STDLIB_API
+void swift::swift_stdlib_random(void *buf, __swift_size_t nbytes) {
+  extern void _klibc_random(void *buf, size_t count);
+  _klibc_random(buf, nbytes);
+}
+
 #else
 
 #undef  WHILE_EINTR

@@ -63,6 +63,7 @@ extension Never: Hashable {}
 ///     // Prints "Message: This is a void function"
 public typealias Void = ()
 
+#if !KERNELLIB
 //===----------------------------------------------------------------------===//
 // Aliases for floating point types
 //===----------------------------------------------------------------------===//
@@ -73,14 +74,18 @@ public typealias Void = ()
 public typealias Float32 = Float
 /// A 64-bit floating point type.
 public typealias Float64 = Double
+#endif // !KERNELLIB
 
 //===----------------------------------------------------------------------===//
 // Default types for unconstrained literals
 //===----------------------------------------------------------------------===//
 /// The default type for an otherwise-unconstrained integer literal.
 public typealias IntegerLiteralType = Int
+
+#if !KERNELLIB
 /// The default type for an otherwise-unconstrained floating point literal.
 public typealias FloatLiteralType = Double
+#endif // !KERNELLIB
 
 /// The default type for an otherwise-unconstrained Boolean literal.
 ///
@@ -412,7 +417,7 @@ infix operator &>>: BitwiseShiftPrecedence, FixedWidthInteger
 
 infix operator   *: MultiplicationPrecedence, Numeric
 infix operator  &*: MultiplicationPrecedence, FixedWidthInteger
-infix operator   /: MultiplicationPrecedence, BinaryInteger, FloatingPoint
+infix operator   /: MultiplicationPrecedence, BinaryInteger //, FloatingPoint
 infix operator   %: MultiplicationPrecedence, BinaryInteger
 infix operator   &: MultiplicationPrecedence, BinaryInteger
 
