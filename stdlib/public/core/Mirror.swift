@@ -591,11 +591,13 @@ public enum PlaygroundQuickLook {
   /// An unsigned integer numeric value.
   case uInt(UInt64)
 
+#if !KERNELLIB
   /// A single precision floating-point numeric value.
   case float(Float32)
 
   /// A double precision floating-point numeric value.
   case double(Float64)
+#endif
 
   // FIXME: Uses an Any to avoid coupling a particular Cocoa type.
   /// An image.
@@ -617,6 +619,7 @@ public enum PlaygroundQuickLook {
   /// An attributed string.
   case attributedString(Any)
 
+#if !KERNELLIB
   // FIXME: Uses explicit coordinates to avoid coupling a particular Cocoa type.
   /// A rectangle.
   case rectangle(Float64, Float64, Float64, Float64)
@@ -628,6 +631,7 @@ public enum PlaygroundQuickLook {
   // FIXME: Uses explicit coordinates to avoid coupling a particular Cocoa type.
   /// A size.
   case size(Float64, Float64)
+#endif
 
   /// A boolean value.
   case bool(Bool)

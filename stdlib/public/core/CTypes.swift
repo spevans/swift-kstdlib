@@ -56,11 +56,13 @@ public typealias CLongLong = Int
 public typealias CLongLong = Int64
 #endif
 
+#if !KERNELLIB
 /// The C 'float' type.
 public typealias CFloat = Float
 
 /// The C 'double' type.
 public typealias CDouble = Double
+#endif
 
 // FIXME: long double
 
