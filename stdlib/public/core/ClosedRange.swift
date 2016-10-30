@@ -463,6 +463,7 @@ extension ClosedRange {
 public typealias CountableClosedRange<Bound: Strideable> = ClosedRange<Bound>
   where Bound.Stride: SignedInteger
 
+#if !KERNELLIB
 extension ClosedRange: Decodable where Bound: Decodable {
   public init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -485,3 +486,4 @@ extension ClosedRange: Encodable where Bound: Encodable {
     try container.encode(self.upperBound)
   }
 }
+#endif // !KERNELLIB

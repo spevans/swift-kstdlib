@@ -405,6 +405,7 @@ extension Range: Hashable where Bound: Hashable {
   }
 }
 
+#if !KERNELLIB
 extension Range: Decodable where Bound: Decodable {
   public init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -427,6 +428,7 @@ extension Range: Encodable where Bound: Encodable {
     try container.encode(self.upperBound)
   }
 }
+#endif // !KERNELLIB
 
 /// A partial half-open interval up to, but not including, an upper bound.
 ///
@@ -470,6 +472,7 @@ extension PartialRangeUpTo: RangeExpression {
   }
 }
 
+#if !KERNELLIB
 extension PartialRangeUpTo: Decodable where Bound: Decodable {
   public init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -483,6 +486,7 @@ extension PartialRangeUpTo: Encodable where Bound: Encodable {
     try container.encode(self.upperBound)
   }
 }
+#endif // !KERNELLIB
 
 /// A partial interval up to, and including, an upper bound.
 ///
@@ -525,6 +529,7 @@ extension PartialRangeThrough: RangeExpression {
   }
 }
 
+#if !KERNELLIB
 extension PartialRangeThrough: Decodable where Bound: Decodable {
   public init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -538,6 +543,7 @@ extension PartialRangeThrough: Encodable where Bound: Encodable {
     try container.encode(self.upperBound)
   }
 }
+#endif // !KERNELLIB
 
 /// A partial interval extending upward from a lower bound.
 ///
@@ -675,6 +681,7 @@ extension PartialRangeFrom: Sequence
   }
 }
 
+#if !KERNELLIB
 extension PartialRangeFrom: Decodable where Bound: Decodable {
   public init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
@@ -688,6 +695,7 @@ extension PartialRangeFrom: Encodable where Bound: Encodable {
     try container.encode(self.lowerBound)
   }
 }
+#endif // !KERNELLIB
 
 extension Comparable {
   /// Returns a half-open range that contains its lower bound but not its upper

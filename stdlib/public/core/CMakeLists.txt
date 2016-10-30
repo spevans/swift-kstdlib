@@ -77,7 +77,7 @@ set(SWIFTLIB_ESSENTIAL
   ICU.swift
   Identifiable.swift
   Indices.swift
-  InputStream.swift
+#  InputStream.swift
   IntegerParsing.swift
   Integers.swift
   Join.swift
@@ -185,7 +185,7 @@ set(SWIFTLIB_ESSENTIAL
 set(SWIFTLIB_ESSENTIAL_GYB_SOURCES
   AtomicInt.swift.gyb
 #  BuiltinMath.swift.gyb
-  Codable.swift.gyb
+#  Codable.swift.gyb
 #  FloatingPointParsing.swift.gyb
 #  FloatingPointTypes.swift.gyb
   IntegerTypes.swift.gyb
@@ -206,10 +206,10 @@ set(SWIFTLIB_SOURCES
   CollectionOfOne.swift
   Diffing.swift
   Mirror.swift
-  PlaygroundDisplay.swift
-  CommandLine.swift
+  #PlaygroundDisplay.swift
+  #CommandLine.swift
   SliceBuffer.swift
-  SIMDVector.swift
+#  SIMDVector.swift
   UnfoldSequence.swift
   VarArgs.swift
   Zip.swift
