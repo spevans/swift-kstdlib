@@ -36,20 +36,24 @@ The [kernel-lib](https://github.com/spevans/swift/tree/kernel-lib)
 branch can be cloned from https://github.com/spevans/swift.git The other repos
 to clone are:
 
-| repo                                     | branch                       |
-|------------------------------------------|------------------------------|
-| https://github.com/spevans/swift-kstdlib | latest swift-kernel-YYYYMMDD |
-| https://github.com/apple/swift-llvm      | stable                       |
-| https://github.com/apple/swift-clang     | stable                       |
-| https://github.com/apple/swift-cmark     | master                       x|
+| repo                                       | branch                       |
+|--------------------------------------------|------------------------------|
+| https://github.com/spevans/swift-kstdlib   | latest swift-kernel-YYYYMMDD |
+| https://github.com/apple/swift-llvm        | stable                       |
+| https://github.com/apple/swift-clang       | stable                       |
+| https://github.com/apple/swift-compiler-rt | stable                       |
+| https://github.com/apple/swift-cmark       | master                       |
 
 
 ```
 git clone https://github.com/spevans/swift-kstdlib swift
 git clone -b stable https://github.com/apple/swift-llvm llvm
 git clone -b stable https://github.com/apple/swift-clang clang
+git clone -b stable https://github.com/apple/swift-compiler-rt swift-compiler-rt
 git clone https://github.com/apple/swift-cmark cmark
-cd swift
+cd llvm/runtimes
+ln -s ../../swift-compiler-rt compiler-rt
+cd ../../swift
 ./utils/build-script  --no-swift-stdlib-assertions --build-subdir=buildbot_linux --release -- --swift-enable-ast-verifier=0 --install-swift --install-prefix=/usr '--swift-install-components=autolink-driver;compiler;clang-builtin-headers;stdlib' --build-swift-static-stdlib --skip-test-lldb --install-destdir=$HOME/swift-kernel --reconfigure  --verbose-build --jobs=2 2>&1|tee build.log
 ```
 
