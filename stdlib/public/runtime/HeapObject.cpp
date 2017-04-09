@@ -49,8 +49,8 @@ using namespace swift;
 static inline bool isValidPointerForNativeRetain(const void *p) {
 #if defined(__x86_64__) || defined(__arm64__)
   // On these platforms, the upper half of address space is reserved for the
-  // kernel, so we can assume that pointer values in this range are invalid.
-  return (intptr_t)p > 0;
+  // kernel, so we can assume that pointer values in this range are valid.
+  return (intptr_t)p < 0;
 #else
   return p != nullptr;
 #endif
