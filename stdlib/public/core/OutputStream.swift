@@ -498,6 +498,9 @@ internal func _dumpPrint_unlocked<T, TargetStream : TextOutputStream>(
 // OutputStreams
 //===----------------------------------------------------------------------===//
 
+
+// Disabled in Kernellib as kernel supplies it's own version
+#if !KERNELLIB
 internal struct _Stdout : TextOutputStream {
   mutating func _lock() {
     _swift_stdlib_flockfile_stdout()
@@ -525,6 +528,7 @@ internal struct _Stdout : TextOutputStream {
     }
   }
 }
+#endif // !KERNELLIB
 
 extension String : TextOutputStream {
   /// Appends the given string to this string.
