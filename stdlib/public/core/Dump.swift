@@ -36,6 +36,7 @@ public func dump<T, TargetStream : TextOutputStream>(
   return value
 }
 
+#if !KERNELLIB
 /// Dumps an object's contents using its mirror to standard output.
 @discardableResult
 @_semantics("optimize.sil.specialize.generic.never")
@@ -55,6 +56,7 @@ public func dump<T>(
     maxDepth: maxDepth,
     maxItems: maxItems)
 }
+#endif // !KERNELLIB
 
 /// Dump an object's contents. User code should use dump().
 @_semantics("optimize.sil.specialize.generic.never")

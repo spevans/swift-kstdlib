@@ -99,7 +99,7 @@ set(SWIFTLIB_ESSENTIAL
   RangeReplaceableCollection.swift.gyb
   ReflectionLegacy.swift
   Repeat.swift
-  REPL.swift
+#  REPL.swift
   Reverse.swift
   Runtime.swift.gyb
   SipHash.swift.gyb
