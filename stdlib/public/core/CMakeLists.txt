@@ -105,7 +105,7 @@ set(SWIFTLIB_ESSENTIAL
   RangeReplaceableCollection.swift
   ReflectionMirror.swift
   Repeat.swift
-  REPL.swift
+#  REPL.swift
   Reverse.swift
   Runtime.swift.gyb
   RuntimeFunctionCounters.swift

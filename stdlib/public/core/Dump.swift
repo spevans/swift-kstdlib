@@ -51,6 +51,7 @@ public func dump<T, TargetStream : TextOutputStream>(
   return value
 }
 
+#if !KERNELLIB
 /// Dumps the given object's contents using its mirror to standard output.
 ///
 /// - Parameters:
@@ -83,6 +84,7 @@ public func dump<T>(
     maxDepth: maxDepth,
     maxItems: maxItems)
 }
+#endif // !KERNELLIB
 
 /// Dump an object's contents. User code should use dump().
 @inlinable // FIXME(sil-serialize-all)
