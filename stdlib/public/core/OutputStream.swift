@@ -507,6 +507,8 @@ internal func _dumpPrint_unlocked<T, TargetStream : TextOutputStream>(
 // OutputStreams
 //===----------------------------------------------------------------------===//
 
+// Disabled in Kernellib as kernel supplies it's own version
+#if !KERNELLIB
 @_fixed_layout // FIXME(sil-serialize-all)
 @_versioned // FIXME(sil-serialize-all)
 internal struct _Stdout : TextOutputStream {
@@ -546,6 +548,7 @@ internal struct _Stdout : TextOutputStream {
     }
   }
 }
+#endif // !KERNELLIB
 
 extension String : TextOutputStream {
   /// Appends the given string to this string.
