@@ -37,6 +37,7 @@ void swift::_swift_stdlib_free(void *ptr) {
   free(ptr);
 }
 
+#if !KERNELLIB
 SWIFT_RUNTIME_STDLIB_INTERFACE
 int swift::_swift_stdlib_putchar_unlocked(int c) {
 #if defined(_WIN32)
@@ -52,6 +53,8 @@ __swift_size_t swift::_swift_stdlib_fwrite_stdout(const void *ptr,
                                                   __swift_size_t nitems) {
   return fwrite(ptr, size, nitems, stdout);
 }
+#endif // !KERNELLIB
+
 
 SWIFT_RUNTIME_STDLIB_INTERFACE
 __swift_size_t swift::_swift_stdlib_strlen(const char *s) {
