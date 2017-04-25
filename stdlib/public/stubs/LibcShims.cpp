@@ -55,6 +55,8 @@ __swift_size_t swift::_swift_stdlib_fwrite_stdout(const void *ptr,
                                                   __swift_size_t nitems) {
     return fwrite(ptr, size, nitems, stdout);
 }
+#endif // !KERNELLIB
+
 
 #if !KERNELLIB
 SWIFT_RUNTIME_STDLIB_SPI

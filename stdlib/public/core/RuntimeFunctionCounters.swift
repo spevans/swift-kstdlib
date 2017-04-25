@@ -204,6 +204,7 @@ protocol _RuntimeFunctionCountersStats: CustomDebugStringConvertible {
   subscript(_ index: Int) -> UInt32 { get set }
 }
 
+#if !KERNELLIB
 extension _RuntimeFunctionCountersStats {
   /// Dump the current state of all counters.
   public func dump(skipUnchanged: Bool) {
@@ -218,6 +219,7 @@ extension _RuntimeFunctionCountersStats {
     dumpDiff(after, skipUnchanged: skipUnchanged, to: &output)
   }
 }
+#endif
 
 extension _RuntimeFunctionCountersStats {
   public var debugDescription: String {
