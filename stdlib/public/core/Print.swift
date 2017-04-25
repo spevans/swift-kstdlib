@@ -49,6 +49,7 @@
 ///     space (`" "`).
 ///   - terminator: The string to print after all items have been printed. The
 ///     default is a newline (`"\n"`).
+#if !KERNELLIB
 @inline(never)
 @_semantics("stdlib_binary_only")
 public func print(
@@ -68,7 +69,7 @@ public func print(
       items, separator: separator, terminator: terminator, to: &output)
   }
 }
-
+#endif // !KERNELLIB
 /// Writes the textual representations of the given items most suitable for
 /// debugging into the standard output.
 ///
@@ -109,6 +110,7 @@ public func print(
 ///     space (`" "`).
 ///   - terminator: The string to print after all items have been printed. The
 ///     default is a newline (`"\n"`).
+#if !KERNELLIB
 @inline(never)
 @_semantics("stdlib_binary_only")
 public func debugPrint(
@@ -127,6 +129,7 @@ public func debugPrint(
       items, separator: separator, terminator: terminator, to: &output)
   }
 }
+#endif // !KERNELLIB
 
 /// Writes the textual representations of the given items into the given output
 /// stream.
