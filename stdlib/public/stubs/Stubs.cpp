@@ -500,7 +500,6 @@ const char *swift::_swift_stdlib_strtof_clocale(
     nptr, outResult, HUGE_VALF, strtof_l);
 }
 #endif
-#endif  // !KERNELLIB
 
 void swift::_swift_stdlib_flockfile_stdout() {
 #if defined(_WIN32)
@@ -521,6 +520,8 @@ void swift::_swift_stdlib_funlockfile_stdout() {
 int swift::_swift_stdlib_putc_stderr(int C) {
   return putc(C, stderr);
 }
+
+#endif  // !KERNELLIB
 
 size_t swift::_swift_stdlib_getHardwareConcurrency() {
   return std::thread::hardware_concurrency();

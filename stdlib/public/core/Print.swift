@@ -49,6 +49,7 @@
 ///     space (`" "`).
 ///   - terminator: The string to print after all items have been printed. The
 ///     default is a newline (`"\n"`).
+#if !KERNELLIB
 public func print(
   _ items: Any...,
   separator: String = " ",
@@ -64,6 +65,7 @@ public func print(
     _print(items, separator: separator, terminator: terminator, to: &output)
   }
 }
+#endif // !KERNELLIB
 
 /// Writes the textual representations of the given items most suitable for
 /// debugging into the standard output.
@@ -105,6 +107,7 @@ public func print(
 ///     space (`" "`).
 ///   - terminator: The string to print after all items have been printed. The
 ///     default is a newline (`"\n"`).
+#if !KERNELLIB
 public func debugPrint(
   _ items: Any...,
   separator: String = " ",
@@ -120,6 +123,7 @@ public func debugPrint(
     _debugPrint(items, separator: separator, terminator: terminator, to: &output)
   }
 }
+#endif // !KERNELLIB
 
 /// Writes the textual representations of the given items into the given output
 /// stream.
