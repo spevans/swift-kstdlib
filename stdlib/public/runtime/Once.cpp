@@ -52,6 +52,8 @@ void swift::swift_once(swift_once_t *predicate, void (*fn)(void *),
   dispatch_once_f(predicate, context, fn);
 #elif defined(__CYGWIN__)
   _swift_once_f(predicate, context, fn);
+#elif KERNELLIB // implemented externally for KERNELLIB
+  swift_once_f(predicate, fn, context);
 #else
   std::call_once(*predicate, [fn, context]() { fn(context); });
 #endif
