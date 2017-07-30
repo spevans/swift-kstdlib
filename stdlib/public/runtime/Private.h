@@ -628,4 +628,10 @@ public:
                                   const ProtocolRequirement *assocConformance);
 } // end namespace swift
 
+#if KERNELLIB
+extern "C"
+void swift_once_f(uintptr_t *predicate, void (*function)(void *),
+                  void *context);
+#endif
+
 #endif /* SWIFT_RUNTIME_PRIVATE_H */

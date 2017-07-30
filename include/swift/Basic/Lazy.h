@@ -36,6 +36,12 @@ namespace swift {
   using OnceToken_t = unsigned long;
 # define SWIFT_ONCE_F(TOKEN, FUNC, CONTEXT) \
   _swift_once_f(&TOKEN, CONTEXT, FUNC)
+#elif KERNELLIB
+ void swift_once_f(uintptr_t *predicate,
+                     void (*function)(void *), void *context);
+  using OnceToken_t = unsigned long;
+#define SWIFT_ONCE_F(TOKEN, FUNC, CONTEXT) \
+  swift::swift_once_f(&TOKEN, FUNC, CONTEXT)
 #else
   using OnceToken_t = std::once_flag;
 # define SWIFT_ONCE_F(TOKEN, FUNC, CONTEXT) \
