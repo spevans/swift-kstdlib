@@ -194,6 +194,7 @@ static void _swift_dumpRuntimeCounters(RuntimeFunctionCountersState *State) {
 
 /// Dump all per-object runtime function pointers.
 void _swift_dumpObjectsRuntimeFunctionPointers() {
+#if !KERNELLIB
   auto &theSentinel = RuntimeObjectStateCache.get();
   StaticScopedReadLock lock(theSentinel.Lock);
   for (auto &Pair : theSentinel.Cache) {
@@ -201,6 +202,7 @@ void _swift_dumpObjectsRuntimeFunctionPointers() {
     _swift_dumpRuntimeCounters(&Pair.getSecond());
     printf("\n");
   }
+#endif // !KERNELLIB
 }
 
 /// Set mode for global runtime function counters.
