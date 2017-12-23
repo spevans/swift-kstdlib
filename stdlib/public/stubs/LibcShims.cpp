@@ -118,7 +118,6 @@ int swift::_stdlib_close(int fd) {
   return close(fd);
 #endif
 }
-#endif  // KERNELLIB
 
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
@@ -200,6 +199,7 @@ void swift::_stdlib_setErrno(int value) {
   errno = value;
 }
 
+#endif  // KERNELLIB
 
 
 #if defined(__APPLE__)

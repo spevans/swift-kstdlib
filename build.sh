@@ -10,13 +10,10 @@ mkdir -p $BUILDDIR
 
 
 BASENAME=swift-kernel-`date '+%Y%m%d'`
-
-PREFIX=$BASENAME/usr
+PREFIX=/$BASENAME/usr
 PKGNAME=$BASENAME.tgz
-DESTDIR=$HOME/$PKGNAME
 JOBS=${JOBS:=4}
-
-echo $DESTDIR
+echo PREFIX=$PREFIX
 
 
 swift/utils/build-script --build-swift-static-stdlib $@ \
