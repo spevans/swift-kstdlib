@@ -8,15 +8,13 @@ mkdir -p $BUILDDIR
 
 #BRANCH=`git rev-parse --abbrev-ref HEAD`
 
-
-BASENAME=swift-kernel-`date '+%Y%m%d'`
-
-PREFIX=$BASENAME/usr
+_DATE=${DATE:=`date '+%Y%m%d'`}
+echo _DATE=$_DATE
+BASENAME=swift-kernel-${_DATE}
+PREFIX=/$BASENAME/usr
 PKGNAME=$BASENAME.tgz
-DESTDIR=$HOME/$PKGNAME
 JOBS=${JOBS:=4}
-
-echo $DESTDIR
+echo PREFIX=$PREFIX
 
 
 swift/utils/build-script --build-swift-static-stdlib $@ \
@@ -31,9 +29,11 @@ swift/utils/build-script --build-swift-static-stdlib $@ \
                          --install-destdir=$HOME \
                          --installable-package=$PKGDIR/$PKGNAME \
                          '--swift-install-components=compiler;clang-builtin-headers;stdlib' \
-                         --build-swift-static-stdlib \
+                         --build-swift-static-stdlib=1 \
+                         --build-swift-dynamic-stdlib=0 \
                          --build-swift-dynamic-sdk-overlay=0 \
                          --build-swift-static-sdk-overlay=0 \
+                         --swift-include-tests=0 \
                          --jobs=$JOBS 2>&1|tee kernel-lib-build.log
 
 #'--llvm-cmake-options=-DLLVM_ENABLE_ASSERTIONS=TRUE -DLLVM_TARGETS_TO_BUILD=X86' \

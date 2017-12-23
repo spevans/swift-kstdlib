@@ -66,9 +66,9 @@ if(SWIFT_BUILD_STDLIB OR SWIFT_BUILD_REMOTE_MIRROR)
   add_subdirectory(SwiftRemoteMirror)
 endif()
 
-if(SWIFT_BUILD_SDK_OVERLAY)
-  add_subdirectory(Platform)
-endif()
+#if(SWIFT_BUILD_SDK_OVERLAY)
+#  add_subdirectory(Platform)
+#endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   if(SWIFT_BUILD_SDK_OVERLAY)
