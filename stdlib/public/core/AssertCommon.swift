@@ -64,6 +64,8 @@ internal func _fatalErrorFlags() -> UInt32 {
   // (1 << 0): Report backtrace on fatal error
 #if os(iOS) || os(tvOS) || os(watchOS)
   return 0
+#elseif KERNELLIB
+  return 1
 #else
   return _isDebugAssertConfiguration() ? 1 : 0
 #endif
