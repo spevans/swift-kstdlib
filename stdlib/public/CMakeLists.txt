@@ -57,6 +57,8 @@ add_subdirectory(SwiftShims)
 if (SWIFT_STDLIB_DISABLE_RED_ZONE)
   list(APPEND SWIFT_RUNTIME_CORE_CXX_FLAGS "-mno-red-zone" "-mcmodel=kernel" "-mno-mmx" "-mno-sse" "-mno-sse2" "-DKERNELLIB")
 endif()
+# Always enable frame pointer to make backtrace() simpler.
+list(APPEND SWIFT_RUNTIME_CORE_CXX_FLAGS "-fno-omit-frame-pointer" "-mno-omit-leaf-frame-pointer")
 
 if(SWIFT_BUILD_STDLIB)
   # These must be kept in dependency order so that any referenced targets

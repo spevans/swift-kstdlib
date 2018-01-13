@@ -36,7 +36,7 @@
 
 using namespace swift;
 
-bool swift::_swift_disableExclusivityChecking = false;
+bool swift::_swift_disableExclusivityChecking = true;
 
 static const char *getAccessName(ExclusivityFlags flags) {
   switch (flags) {

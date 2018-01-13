@@ -92,7 +92,7 @@ message("swift_runtime_library_compile_flags: ${swift_runtime_library_compile_fl
 
 set(sdk "${SWIFT_HOST_VARIANT_SDK}")
 if(SWIFT_BUILD_STATIC_STDLIB AND "${sdk}" STREQUAL "LINUX")
-  list(REMOVE_ITEM swift_runtime_sources ImageInspectionELF.cpp)
+  #list(REMOVE_ITEM swift_runtime_sources ImageInspectionELF.cpp)
   set(static_binary_lnk_file_list)
   string(TOLOWER "${sdk}" lowercase_sdk)
 

@@ -192,7 +192,7 @@ void swift::dumpStackTraceEntry(unsigned index, void *framePC,
 #endif
 }
 
-#if defined(__ELF__)
+#if defined(__ELF__) && !KERNELLIB
 struct UnwindState {
   void **current;
   void **end;
@@ -228,7 +228,7 @@ void swift::printCurrentBacktrace(unsigned framesToSkip) {
   void *addrs[maxSupportedStackDepth];
 #if defined(_WIN32)
   int symbolCount = CaptureStackBackTrace(0, maxSupportedStackDepth, addrs, NULL);
-#elif defined(__ELF__)
+#elif defined(__ELF__) && !KERNELLIB
   struct UnwindState state = {&addrs[0], &addrs[maxSupportedStackDepth]};
   _Unwind_Backtrace(SwiftUnwindFrame, &state);
   int symbolCount = state.current - addrs;
