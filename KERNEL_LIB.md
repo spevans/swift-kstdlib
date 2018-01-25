@@ -19,7 +19,7 @@ This repo is a fork of the apple/swift used for building [swift-project1]
 programs.
 
 This allows stdlib to be compiled without using SSE registers or instructions
-to while still conforming to the x86_64 ABI
+while still conforming to the x86_64 ABI
 
 
 A new branch is created each time the changes are rebased onto the latest swift
