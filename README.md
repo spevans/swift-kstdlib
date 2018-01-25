@@ -1,8 +1,7 @@
-Swift and stdlib suitable for firmware / bare metal coding
+Swift and stdlib suitable for firmware / bare metal coding.
 
 
-This repo is a fork of the apple/swift used for building [swift-project1]
-(https://github.com/spevans/swift-project1) and contains three main changes:
+This repo is a fork of the [apple/swift](https://github.com/apple/swift) repo used for building [swift-project1](https://github.com/spevans/swift-project1) and contains three main changes:
 
 1. A `-disable-red-zone` compiler option to `swiftc` to compile code without
    using the red zone
