@@ -513,6 +513,16 @@ extension _StringGuts {
   internal
   func _dump() {
 #if INTERNAL_CHECKS_ENABLED
+
+    func print(_ str: String, terminator: String) {
+      _klibc_print(str)
+      _klibc_print(terminator)
+    }
+
+    func print(_ str: String) {
+      _klibc_print(str)
+    }
+
     func printHex<U: UnsignedInteger>(_ uint: U, newline: Bool = true) {
       print(String(uint, radix: 16), terminator: newline ? "\n" : "")
     }
@@ -533,13 +543,19 @@ extension _StringGuts {
       let storage = _object.nativeRawStorage
       print("native ", terminator: "")
       printHex(Builtin.reinterpretCast(storage) as UInt, newline: false)
+      print("isASCII ", terminator: "")
+      print(String(self.isASCII), terminator: " ")
+      print("isContiguous: ", terminator: "")
+      print(String(_object.isContiguous), terminator: " ")
+      print("isSingleByte: ", terminator: "")
+      print(String(_object.isSingleByte), terminator: " ")
       print(" start: ", terminator: "")
       printHex(
         Builtin.reinterpretCast(storage.rawStart) as UInt, newline: false)
       print(" count: ", terminator: "")
-      print(storage.count, terminator: "")
+      print(String(storage.count), terminator: "")
       print("/", terminator: "")
-      print(storage.capacity, terminator: "")
+      print(String(storage.capacity), terminator: "")
       return
     }
     if _object.isSmall {
@@ -568,7 +584,7 @@ extension _StringGuts {
       printHex(
         Builtin.reinterpretCast(_object.asOpaqueObject) as UInt, newline: false)
       print(" count: ", terminator: "")
-      print(_opaqueCount, terminator: "")
+      print(String(_opaqueCount), terminator: "")
       return
     }
 #endif // ObjC
@@ -577,7 +593,7 @@ extension _StringGuts {
       printHex(
         Builtin.reinterpretCast(_unmanagedRawStart) as UInt, newline: false)
       print(" count: ", terminator: "")
-      print(_unmanagedCount, terminator: "")
+      print(String(_unmanagedCount), terminator: "")
       return
     }
     print("error", terminator: "")

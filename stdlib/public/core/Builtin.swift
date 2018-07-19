@@ -405,24 +405,24 @@ internal func _nonPointerBits(_ x: Builtin.BridgeObject) -> UInt {
 @inlinable // FIXME(sil-serialize-all)
 @inline(__always)
 internal func _isObjCTaggedPointer(_ x: AnyObject) -> Bool {
-  return (Builtin.reinterpretCast(x) & _objCTaggedPointerBits) != 0
+  return ((Builtin.reinterpretCast(x) ^ 0x80_00_0000_0000_0000 ) & _objCTaggedPointerBits) != 0
 }
 @inlinable // FIXME(sil-serialize-all)
 @inline(__always)
 internal func _isObjCTaggedPointer(_ x: UInt) -> Bool {
-  return (x & _objCTaggedPointerBits) != 0
+  return ((x ^ 0x80_00_0000_0000_0000) & _objCTaggedPointerBits) != 0
 }
 
 /// TODO: describe extras
 
 @inlinable @inline(__always) public // FIXME
 func _isTaggedObject(_ x: Builtin.BridgeObject) -> Bool {
-  return _bitPattern(x) & _objCTaggedPointerBits != 0
+  return (_bitPattern(x) ^ 0x80_00_0000_0000_0000) & _objCTaggedPointerBits != 0
 }
 @inlinable @inline(__always) public // FIXME
 func _isNativePointer(_ x: Builtin.BridgeObject) -> Bool {
   return (
-    _bitPattern(x) & (_objCTaggedPointerBits | _objectPointerIsObjCBit)
+    (_bitPattern(x) ^ 0x80_00_0000_0000_0000) & (_objCTaggedPointerBits | _objectPointerIsObjCBit)
   ) == 0
 }
 @inlinable @inline(__always) public // FIXME
@@ -463,7 +463,8 @@ public func _bridgeObject(
 @inline(__always)
 @inlinable
 public func _bridgeObject(fromTagged x: UInt) -> Builtin.BridgeObject {
-  _sanityCheck(x & _objCTaggedPointerBits != 0)
+  let tagged =  x ^ 0x80_00_0000_0000_0000
+  _sanityCheck(tagged & _objCTaggedPointerBits != 0)
   let object: Builtin.BridgeObject = Builtin.valueToBridgeObject(x)
   _sanityCheck(_isTaggedObject(object))
   return object
@@ -683,7 +684,7 @@ func _isUnique_native<T>(_ object: inout T) -> Bool {
   // force cast it to BridgeObject and check the spare bits.
   _sanityCheck(
     (_bitPattern(Builtin.reinterpretCast(object)) & _objectPointerSpareBits)
-    == 0)
+    == 0x7F00_0000_0000_0000)
   _sanityCheck(_usesNativeSwiftReferenceCounting(
       type(of: Builtin.reinterpretCast(object) as AnyObject)))
   return Bool(Builtin.isUnique_native(&object))
@@ -699,7 +700,7 @@ func _isUniqueOrPinned_native<T>(_ object: inout T) -> Bool {
   // reference. Any case it's non pointer bits must be zero.
   _sanityCheck(
     (_bitPattern(Builtin.reinterpretCast(object)) & _objectPointerSpareBits)
-    == 0)
+    == 0x7F00_0000_0000_0000)
   _sanityCheck(_usesNativeSwiftReferenceCounting(
       type(of: Builtin.reinterpretCast(object) as AnyObject)))
   return Bool(Builtin.isUniqueOrPinned_native(&object))

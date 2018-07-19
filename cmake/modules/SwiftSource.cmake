@@ -254,6 +254,7 @@ function(_compile_swift_files
     list(APPEND swift_flags "-Xfrontend" "-mcode-model=kernel" "-Xcc" "-mcmodel=kernel")
     list(APPEND swift_flags "-Xcc" "-mno-mmx" "-Xcc" "-mno-sse" "-Xcc" "-mno-sse2")
     list(APPEND swift_flags "-D" "KERNELLIB")
+    list(APPEND swift_flags "-D" "INTERNAL_CHECKS_ENABLED")
   endif()
 
   # FIXME: Cleaner way to do this?

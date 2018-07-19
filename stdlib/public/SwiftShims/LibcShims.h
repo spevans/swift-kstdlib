@@ -19,6 +19,7 @@
 #ifndef SWIFT_STDLIB_SHIMS_LIBCSHIMS_H
 #define SWIFT_STDLIB_SHIMS_LIBCSHIMS_H
 
+#include <stdio.h>
 #include "SwiftStdint.h"
 #include "SwiftStddef.h"
 #include "Visibility.h"
@@ -223,6 +224,15 @@ void * _Nullable _stdlib_thread_getspecific(__swift_thread_key_t key);
 SWIFT_RUNTIME_STDLIB_INTERNAL
 int _stdlib_thread_setspecific(__swift_thread_key_t key,
                                const void * _Nullable value);
+
+static inline int _klibc_print(const char *string) {
+        return fprintf(stderr, "%s", string);
+}
+
+static int _klibc_print_uint64(unsigned long long number) {
+        return fprintf(stderr, "%16.16llx\n", number);
+}
+
 
 #ifdef __cplusplus
 }} // extern "C", namespace swift

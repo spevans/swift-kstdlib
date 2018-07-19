@@ -9,6 +9,7 @@
 // See https://swift.org/CONTRIBUTORS.txt for the list of Swift project authors
 //
 //===----------------------------------------------------------------------===//
+import SwiftShims
 
 // TODO: Comments. Supposed to abstract bit-twiddling operations. Meant to be a
 // completely transparent struct. That is, it's just a trivial encapsulation to
@@ -264,7 +265,7 @@ extension _StringObject {
   var _variantBits: UInt {
     @inline(__always)
     get {
-      return rawBits & _StringObject._variantMask
+      return (rawBits ^ 0xFF_00_0000_0000_0000) & _StringObject._variantMask
     }
   }
 #endif // arch(i386) || arch(arm)
@@ -281,7 +282,11 @@ extension _StringObject {
       return Builtin.reinterpretCast(object)
 #else
       _sanityCheck(isNative || isCocoa)
+#if !KERNELLIB
       return rawBits & _StringObject._payloadMask
+#else
+      return (rawBits | ~_StringObject._payloadMask)
+#endif
 #endif
     }
   }
@@ -389,7 +394,14 @@ extension _StringObject {
   @inlinable internal
   static var _smallUTF8TopNibble: UInt {
     @inline(__always)
-    get { return 0xE000_0000_0000_0000 }
+
+    get {
+#if !KERNELLIB
+      return 0xE000_0000_0000_0000
+#else
+      return 0x1000_0000_0000_0000
+#endif
+    }
   }
   @inlinable internal
   static var _smallUTF8CountMask: UInt {
@@ -536,9 +548,15 @@ extension _StringObject {
 #if arch(i386) || arch(arm)
       return UnsafeRawPointer(bitPattern: _bits)._unsafelyUnwrappedUnchecked
 #else
+#if !KERNELLIB
       return UnsafeRawPointer(
         bitPattern: payloadBits
       )._unsafelyUnwrappedUnchecked
+#else
+      return UnsafeRawPointer(
+        bitPattern: rawBits | ~_StringObject._payloadMask
+      )._unsafelyUnwrappedUnchecked
+#endif
 #endif
     }
   }
@@ -604,7 +622,7 @@ extension _StringObject {
         return true
       }
 #else
-      return rawBits & _StringObject._isValueBit != 0
+      return _variantBits & _StringObject._isValueBit != 0
 #endif
     }
   }
@@ -658,7 +676,7 @@ extension _StringObject {
         return isCocoa
       }
 #else
-      return rawBits & _StringObject._subVariantBit != 0
+      return (rawBits ^ 0xFF_00_0000_0000_0000) & _StringObject._subVariantBit != 0
 #endif
     }
   }
@@ -681,7 +699,7 @@ extension _StringObject {
         return false
       }
 #else
-      return rawBits & _StringObject._isOpaqueBit == 0
+      return (rawBits ^ 0xFF_00_0000_0000_0000) & _StringObject._isOpaqueBit == 0
 #endif
     }
   }
@@ -721,7 +739,7 @@ extension _StringObject {
         return false
       }
 #else
-      return rawBits & _StringObject._twoByteBit == 0
+      return (rawBits ^ 0xFF_00_0000_0000_0000) & _StringObject._twoByteBit == 0
 #endif
     }
   }
@@ -859,8 +877,15 @@ extension _StringObject {
     }
     self.init(.strong(Builtin.reinterpretCast(_payloadBits)), bits)
 #else
+#if !KERNELLIB
     _sanityCheck(_payloadBits & ~_StringObject._payloadMask == 0)
+#else
+    _sanityCheck(_payloadBits & ~_StringObject._payloadMask == ~_StringObject._payloadMask )
+#endif
     var rawBits = _payloadBits
+#if KERNELLIB
+      rawBits &= ~0xFF00_0000_0000_0000
+#endif
     if isValue {
       var rawBitsBuiltin = Builtin.stringObjectOr_Int64(
         rawBits._value, _StringObject._isValueBit._value)
@@ -877,6 +902,10 @@ extension _StringObject {
           rawBitsBuiltin, _StringObject._twoByteBit._value)
       }
       rawBits = UInt(rawBitsBuiltin)
+#if KERNELLIB
+      rawBits ^= 0xFF00_0000_0000_0000
+#endif
+
       self.init(taggedRawBits: rawBits)
     } else {
       if isSmallOrObjC {
@@ -888,6 +917,10 @@ extension _StringObject {
       if isTwoByte {
         rawBits |= _StringObject._twoByteBit
       }
+#if KERNELLIB
+      rawBits ^= 0xFF00_0000_0000_0000
+#endif
+
       self.init(nonTaggedRawBits: rawBits)
     }
 #endif

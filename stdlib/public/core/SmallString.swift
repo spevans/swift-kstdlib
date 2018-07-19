@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import SwiftShims
+
 @usableFromInline // FIXME(sil-serialize-all)
 internal
 typealias _SmallUTF16StringBuffer = _FixedArray16<UInt16>
@@ -317,13 +319,19 @@ extension _SmallUTF8String {
 
   internal
   func _dump() {
+
+    func print(_ str: String) {
+      _klibc_print(str)
+      _klibc_print("\n")
+    }
+
 #if arch(i386) || arch(arm)
     unsupportedOn32bit()
 #else
     #if INTERNAL_CHECKS_ENABLED
     print("""
-      smallUTF8: count: \(self.count), codeUnits: \(
-        self.map { String($0, radix: 16) }.dropLast()
+      smallUTF8: count: \(self.count), isASCII: \(self.isASCII) codeUnits: \(
+        self.map { String($0, radix: 16) }
       )
       """)
     #endif // INTERNAL_CHECKS_ENABLED
