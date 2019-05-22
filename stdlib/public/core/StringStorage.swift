@@ -433,14 +433,20 @@ extension __StringStorage {
     capacity: Int,
     isASCII: Bool
   ) -> __StringStorage {
+    _string_debug10(bufPtr.baseAddress, bufPtr.count, capacity, isASCII ? 1 : 0)
     let countAndFlags = CountAndFlags(
       mortalCount: bufPtr.count, isASCII: isASCII)
+    _string_debug11(0)
     _internalInvariant(capacity >= bufPtr.count)
+    _string_debug11(1)
     let storage = __StringStorage.create(
       capacity: capacity, countAndFlags: countAndFlags)
     let addr = bufPtr.baseAddress._unsafelyUnwrappedUnchecked
+    _string_debug11(2)
     storage.mutableStart.initialize(from: addr, count: bufPtr.count)
+    _string_debug11(3)
     storage._invariantCheck()
+    _string_debug11(4)
     return storage
   }
 
@@ -521,12 +527,20 @@ extension __StringStorage {
   internal func _invariantCheck() {
     let rawSelf = UnsafeRawPointer(Builtin.bridgeToRawPointer(self))
     let rawStart = UnsafeRawPointer(start)
+    let str = asString
+
+    _string_storage_check(rawSelf, rawStart, unusedCapacity, count,
+      self._realCapacity, (self.terminator.pointee == 0) ? 1 : 0,
+      str._guts._object.isPreferredRepresentation ? 1 : 0,
+      isASCII ? (_allASCII(self.codeUnits) ? 1 : 0) : 0,
+      _countAndFlags.isNativelyStored ? 1 : 0,
+      _countAndFlags.isTailAllocated ? 1 : 0)
+    
     _internalInvariant(unusedCapacity >= 0)
     _internalInvariant(count <= capacity)
     _internalInvariant(rawSelf + Int(_StringObject.nativeBias) == rawStart)
     _internalInvariant(self._realCapacity > self.count, "no room for nul-terminator")
     _internalInvariant(self.terminator.pointee == 0, "not nul terminated")
-    let str = asString
     _internalInvariant(str._guts._object.isPreferredRepresentation)
 
     _countAndFlags._invariantCheck()

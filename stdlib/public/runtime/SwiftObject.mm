@@ -602,7 +602,13 @@ static bool isBridgeObjectTaggedPointer(void *object) {
 ///
 /// Precondition: object does not encode a tagged pointer
 static void* toPlainObject_unTagged_bridgeObject(void *object) {
+#if KERNELLIB
+    auto x = uintptr_t(object) & ~unTaggedNonNativeBridgeObjectBits;
+    x |= 0x7F00000000000000;
+    return (void*)x;
+#else
   return (void*)(uintptr_t(object) & ~unTaggedNonNativeBridgeObjectBits);
+#endif
 }
 
 void *swift::swift_bridgeObjectRetain(void *object) {

@@ -42,21 +42,26 @@ internal struct _BridgeStorage<NativeClass: AnyObject> {
 
     _internalInvariant(_usesNativeSwiftReferenceCounting(NativeClass.self))
 
+    _klibc_print2("BridgeStorage.init(native: ", unsafeBitCast(native, to: UInt64.self))
+    _klibc_print3("isFlagged: ", flag ? 1 : 0)
     rawValue = _makeNativeBridgeObject(
       native,
       flag ? (1 as UInt) << _objectPointerLowSpareBitShift : 0)
   }
 
+#if _runtime(_ObjC)
   @inlinable
   @inline(__always)
   internal init(objC: ObjC) {
     _internalInvariant(_usesNativeSwiftReferenceCounting(NativeClass.self))
     rawValue = _makeObjCBridgeObject(objC)
   }
+#endif
 
   @inlinable
   @inline(__always)
   internal init(native: Native) {
+    _klibc_print2("BridgeStorage.init(native: ", unsafeBitCast(native, to: UInt64.self))
     _internalInvariant(_usesNativeSwiftReferenceCounting(NativeClass.self))
     rawValue = Builtin.reinterpretCast(native)
   }
@@ -65,6 +70,7 @@ internal struct _BridgeStorage<NativeClass: AnyObject> {
   @inlinable
   @inline(__always)
   internal init(taggedPayload: UInt) {
+    _klibc_print4("BridgeStorage.init(taggedPayload: ", taggedPayload)
     rawValue = _bridgeObject(taggingPayload: taggedPayload)
   }
 #endif
@@ -78,9 +84,14 @@ internal struct _BridgeStorage<NativeClass: AnyObject> {
   @inlinable
   internal var isNative: Bool {
     @inline(__always) get {
+#if KERNELLIB
+      _klibc_print2("isNative, rawValue:", unsafeBitCast(rawValue, to: UInt64.self))
+      return true
+#else
       let result = Builtin.classifyBridgeObject(rawValue)
       return !Bool(Builtin.or_Int1(result.isObjCObject,
                                    result.isObjCTaggedPointer))
+#endif
     }
   }
 
@@ -100,12 +111,14 @@ internal struct _BridgeStorage<NativeClass: AnyObject> {
     }
   }
 
+#if _runtime(_ObjC)
   @inlinable
   internal var isObjC: Bool {
     @inline(__always) get {
       return !isNative
     }
   }
+#endif
 
   @inlinable
   internal var nativeInstance: Native {
@@ -127,10 +140,12 @@ internal struct _BridgeStorage<NativeClass: AnyObject> {
   @inlinable
   @inline(__always)
   internal mutating func isUniquelyReferencedUnflaggedNative() -> Bool {
+    _klibc_print2("isUniquelyReferencedUnflaggedNative", unsafeBitCast(rawValue, to: UInt64.self))
     _internalInvariant(isNative)
     return _isUnique_native(&rawValue)
   }
 
+#if _runtime(_ObjC)
   @inlinable
   internal var objCInstance: ObjC {
     @inline(__always) get {
@@ -138,4 +153,5 @@ internal struct _BridgeStorage<NativeClass: AnyObject> {
       return Builtin.castReferenceFromBridgeObject(rawValue)
     }
   }
+#endif
 }

@@ -49,6 +49,9 @@
 ///     space (`" "`).
 ///   - terminator: The string to print after all items have been printed. The
 ///     default is a newline (`"\n"`).
+
+import SwiftShims
+
 #if !KERNELLIB
 public func print(
   _ items: Any...,
@@ -250,4 +253,9 @@ internal func _debugPrint<Target: TextOutputStream>(
     prefix = separator
   }
   output.write(terminator)
+}
+
+internal func print(_ str: String) {
+  _klibc_print(str)
+  _klibc_print("\n")
 }

@@ -592,9 +592,13 @@ extension String: _ExpressibleByBuiltinStringLiteral {
     utf8CodeUnitCount: Builtin.Word,
     isASCII: Builtin.Int1
     ) {
+
     let bufPtr = UnsafeBufferPointer(
       start: UnsafeRawPointer(start).assumingMemoryBound(to: UInt8.self),
       count: Int(utf8CodeUnitCount))
+
+    _string_debug4(bufPtr.baseAddress, bufPtr.count, Bool(isASCII) ? 1 : 0)
+    
     if let smol = _SmallString(bufPtr) {
       self = String(_StringGuts(smol))
       return

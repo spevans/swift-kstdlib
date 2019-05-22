@@ -2184,12 +2184,18 @@ emitMetadataAccessByMangledName(IRGenFunction &IGF, CanType type,
     // A "negative" 64-bit value in the cache indicates the uninitialized state.
     // Which word has that bit in the {i32, i32} layout depends on endianness.
 
+#if !KERNELLIB
+    auto stringSize = -mangledStringSize;
+#else
+    auto stringSize = mangledStringSize;
+#endif
+
     if (IGM.getModule()->getDataLayout().isBigEndian()) {
-      structBuilder.addInt32(-mangledStringSize);
+      structBuilder.addInt32(stringSize);
       structBuilder.addRelativeAddress(mangledString);
     } else {
       structBuilder.addRelativeAddress(mangledString);
-      structBuilder.addInt32(-mangledStringSize);
+      structBuilder.addInt32(stringSize);
     }
 
     auto init = structBuilder.finishAndCreateFuture();
@@ -2248,8 +2254,13 @@ emitMetadataAccessByMangledName(IRGenFunction &IGF, CanType type,
       // Compare the load result to see if it's negative.
       auto isUnfilledBB = subIGF.createBasicBlock("");
       auto contBB = subIGF.createBasicBlock("");
+#if !KERNELLIB
       llvm::Value *comparison = subIGF.Builder.CreateICmpSLT(load,
                                         llvm::ConstantInt::get(IGM.Int64Ty, 0));
+#else
+      llvm::Value *comparison = subIGF.Builder.CreateICmpSGT(load,
+                                        llvm::ConstantInt::get(IGM.Int64Ty, 0));
+#endif
       comparison = subIGF.Builder.CreateExpect(comparison,
                                          llvm::ConstantInt::get(IGM.Int1Ty, 0));
       subIGF.Builder.CreateCondBr(comparison, isUnfilledBB, contBB);
@@ -2264,7 +2275,9 @@ emitMetadataAccessByMangledName(IRGenFunction &IGF, CanType type,
       // string.
       auto size = subIGF.Builder.CreateAShr(load, 32);
       size = subIGF.Builder.CreateTruncOrBitCast(size, IGM.SizeTy);
+#if !KERNELLIB
       size = subIGF.Builder.CreateNeg(size);
+#endif
       
       auto stringAddrOffset = subIGF.Builder.CreateTrunc(load,
                                                          IGM.Int32Ty);
