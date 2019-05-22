@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import SwiftShims
+
 extension String: StringProtocol {}
 
 extension String: RangeReplaceableCollection {
@@ -127,10 +129,17 @@ extension String: RangeReplaceableCollection {
   /// - Parameter other: Another string.
   @_semantics("string.append")
   public mutating func append(_ other: String) {
+    _string_debug11(10)
+    _string_debug7(self.isEmpty ? 1 : 0)
+    _string_debug12(_guts._object.rawBits.0)
+    _string_debug12(_guts._object.rawBits.1)
+    _string_debug7(_guts.hasNativeStorage ? 1 : 0)
     if self.isEmpty && !_guts.hasNativeStorage {
+      _string_debug11(12)
       self = other
       return
     }
+    _string_debug11(13)
     self._guts.append(other._guts)
   }
 
@@ -145,6 +154,7 @@ extension String: RangeReplaceableCollection {
   ///
   /// - Parameter c: The character to append to the string.
   public mutating func append(_ c: Character) {
+    _string_debug11(11)
     self.append(c._str)
   }
 

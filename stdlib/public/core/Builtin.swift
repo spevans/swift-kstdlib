@@ -408,25 +408,44 @@ internal func _nonPointerBits(_ x: Builtin.BridgeObject) -> UInt {
 @inlinable
 @inline(__always)
 internal func _isObjCTaggedPointer(_ x: AnyObject) -> Bool {
+#if !KERNELLIB
   return (Builtin.reinterpretCast(x) & _objCTaggedPointerBits) != 0
+#else
+  return false
+#endif
 }
 @inlinable
 @inline(__always)
 internal func _isObjCTaggedPointer(_ x: UInt) -> Bool {
+#if !KERNELLIB
   return (x & _objCTaggedPointerBits) != 0
+#else
+  return false
+#endif
 }
 
 /// TODO: describe extras
 
 @inlinable @inline(__always) public // FIXME
 func _isTaggedObject(_ x: Builtin.BridgeObject) -> Bool {
+#if !KERNELLIB
   return _bitPattern(x) & _bridgeObjectTaggedPointerBits != 0
+#else
+  return _bitPattern(x) & _bridgeObjectTaggedPointerBits == 0
+#endif
 }
+
 @inlinable @inline(__always) public // FIXME
 func _isNativePointer(_ x: Builtin.BridgeObject) -> Bool {
+#if !KERNELLIB
   return (
-    _bitPattern(x) & (_bridgeObjectTaggedPointerBits | _objectPointerIsObjCBit)
+    bitPattern(x) & (_bridgeObjectTaggedPointerBits | _objectPointerIsObjCBit)
   ) == 0
+#else
+  return (
+    (_bitPattern(x)  ^ 0x80_00_0000_0000_0000) & (_bridgeObjectTaggedPointerBits | _objectPointerIsObjCBit)
+  ) == 0
+#endif
 }
 @inlinable @inline(__always) public // FIXME
 func _isNonTaggedObjCPointer(_ x: Builtin.BridgeObject) -> Bool {
@@ -452,6 +471,7 @@ public func _bridgeObject(fromNative x: AnyObject) -> Builtin.BridgeObject {
   return object
 }
 
+#if _runtime(_ObjC)
 @inline(__always)
 @inlinable
 public func _bridgeObject(
@@ -462,11 +482,19 @@ public func _bridgeObject(
   _internalInvariant(_isNonTaggedObjCPointer(object))
   return object
 }
+#endif
 
 @inline(__always)
 @inlinable
 public func _bridgeObject(fromTagged x: UInt) -> Builtin.BridgeObject {
+  _klibc_print2("bridgeObject(fromTagged:)", unsafeBitCast(x, to: UInt64.self))
+
+#if !KERNELLIB
   _internalInvariant(x & _bridgeObjectTaggedPointerBits != 0)
+#else
+  _internalInvariant(x & _bridgeObjectTaggedPointerBits == 0)
+#endif
+
   let object: Builtin.BridgeObject = Builtin.valueToBridgeObject(x._value)
   _internalInvariant(_isTaggedObject(object))
   return object
@@ -480,7 +508,11 @@ public func _bridgeObject(taggingPayload x: UInt) -> Builtin.BridgeObject {
     "out-of-range: limited bit range requires some zero top bits")
   _internalInvariant(shifted & _bridgeObjectTaggedPointerBits == 0,
     "out-of-range: post-shift use of tag bits")
+#if !KERNELLIB
   return _bridgeObject(fromTagged: shifted | _bridgeObjectTaggedPointerBits)
+#else
+  return _bridgeObject(fromTagged: shifted & ~_bridgeObjectTaggedPointerBits)
+#endif
 }
 
 // BridgeObject -> Values
@@ -579,6 +611,7 @@ internal func _makeNativeBridgeObject(
   return _makeBridgeObject(nativeObject, bits)
 }
 
+#if _runtime(_ObjC)
 /// Create a `BridgeObject` around the given `objCObject`.
 @inlinable
 @inline(__always)
@@ -590,6 +623,8 @@ func _makeObjCBridgeObject(
     objCObject,
     _isObjCTaggedPointer(objCObject) ? 0 : _objectPointerIsObjCBit)
 }
+#endif
+
 
 /// Create a `BridgeObject` around the given `object` with the
 /// given spare bits.
@@ -605,6 +640,8 @@ func _makeObjCBridgeObject(
 internal func _makeBridgeObject(
   _ object: AnyObject, _ bits: UInt
 ) -> Builtin.BridgeObject {
+  _klibc_print2("_makeBridgeObject:", unsafeBitCast(object, to: UInt64.self))
+  _klibc_print4("_bits:", bits)
   _internalInvariant(!_isObjCTaggedPointer(object) || bits == 0,
     "Tagged pointers cannot be combined with bits")
 
@@ -675,6 +712,7 @@ func _isUnique_native<T>(_ object: inout T) -> Bool {
   // This could be a bridge object, single payload enum, or plain old
   // reference. Any case it's non pointer bits must be zero, so
   // force cast it to BridgeObject and check the spare bits.
+  _klibc_print2("_isUnique_native:", Builtin.reinterpretCast(object))
   _internalInvariant(
     (_bitPattern(Builtin.reinterpretCast(object)) & _objectPointerSpareBits)
     == 0)

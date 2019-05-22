@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import SwiftShims
+
 // COW helpers
 extension _StringGuts {
   internal var nativeCapacity: Int? {
@@ -47,6 +49,7 @@ extension _StringGuts {
       guard hasNativeStorage else { return false }
       defer { _fixLifetime(self) }
       var bits: UInt = _object.largeAddressBits
+      _debug_large_address_bits(bits)
       return _isUnique_native(&bits)
     }
   }
@@ -146,6 +149,7 @@ extension _StringGuts {
   }
 
   internal mutating func append(_ other: _StringGuts) {
+    _string_debug11(8)
     if self.isSmall && other.isSmall {
       if let smol = _SmallString(self.asSmall, appending: other.asSmall) {
         self = _StringGuts(smol)
@@ -157,6 +161,7 @@ extension _StringGuts {
   }
 
   internal mutating func append(_ slicedOther: _StringGutsSlice) {
+    _string_debug11(9)
     defer { self._invariantCheck() }
 
     if self.isSmall && slicedOther._guts.isSmall {

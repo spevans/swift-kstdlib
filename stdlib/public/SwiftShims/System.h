@@ -66,8 +66,17 @@
 #define SWIFT_ABI_DEFAULT_BRIDGEOBJECT_TAG_32 0U
 #define SWIFT_ABI_DEFAULT_BRIDGEOBJECT_TAG_64 0x8000000000000000ULL
 
+
+#if !KERNELLIB
+#error !KERNELLIB
+#endif
+
 // Only the bottom 56 bits are used, and heap objects are eight-byte-aligned.
+#if !KERNELLIB
 #define SWIFT_ABI_DEFAULT_64BIT_SPARE_BITS_MASK 0xFF00000000000007ULL
+#else
+#define SWIFT_ABI_DEFAULT_64BIT_SPARE_BITS_MASK 0x8000000000000007ULL
+#endif
 
 /*********************************** i386 *************************************/
 
